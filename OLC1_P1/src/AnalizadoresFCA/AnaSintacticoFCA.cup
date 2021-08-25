@@ -1,0 +1,86 @@
+/*--------------- 1ra Area: Codigo de Usuario -----------------------*/
+//-------> importaciones, paquetes
+package AnalizadoresFCA;
+import java_cup.runtime.Symbol;
+
+//------> Codigo para el parser,variables, metodos
+parser code{:
+
+        //Podemos crear variables, listas, etc;
+        // deben de ser staticas si se quieren usar fuera
+        
+        
+
+        public void syntax_error(Symbol s)
+        {
+            System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
+        }
+
+        public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+        {
+            System.err.println("Error en la Linea " + (s.right+1)+ " Columna "+(s.left+1)+". Identificador " +s.value + " no reconocido.");
+        }
+        
+:}
+
+//------> Codigo para las acciones gramaticales
+action code
+{:  :}
+
+/*--------------- 2da Area: Declaraciones -----------------------*/
+
+//------> declaracion de terminales 
+terminal String cod, pyc, dop, lla, llc, coma, cora, corc, para, parc, doll, cosi, igual;
+terminal String ejex, string, titulo, valores, titulox, tituloy, archivo, compare, mein, globales, graficas, doubleFCA;
+terminal String cadena, digito, identificador;
+
+//------> declaracion de no terminales
+non terminal INICIO, INSTRUCCION, INSTRUCCIONES, INST, MEIN, DECLARACION_GLOB, DECLARACION_GRAPH, COMPARE;
+
+//------> precedencia
+precedence left cod, pyc, dop, coma, cora, corc, lla, llc, para, parc, doll, igual, cosi;
+
+
+start with INICIO;
+
+/*--------------- 3ra Area: Reglas Semanticas -----------------------*/
+
+INICIO::= INSTRUCCIONES   {: :} 
+       ;
+
+
+INSTRUCCIONES::= INSTRUCCIONES MEIN                 {::}
+             |   MEIN                               {::}
+             |   INSTRUCCIONES DECLARACION_GLOB     {::}
+             |   DECLARACION_GLOB                   {::}
+             |   INSTRUCCIONES DECLARACION_GRAPH    {::}
+             |   DECLARACION_GRAPH                  {::}
+             |   INSTRUCCIONES COMPARE              {::}
+             |   COMPARE                            {::}
+             ;
+
+INST::= INST INSTRUCCION {::}
+    | INSTRUCCION        {::}
+    ;
+
+INSTRUCCION::=  string identificador igual cod cadena cod pyc    {::}
+            |   doubleFCA   identificador igual digito pyc {::}
+            |   titulo dop identificador pyc                     {::}
+            |   titulox dop cod cadena cod pyc    {::}
+            |   tituloy dop cod cadena cod pyc    {::}
+            |   archivo dop cod cadena cod pyc    {::}
+            |   ejex dop cora cod cadena cod coma cod cadena cod coma identificador coma identificador coma identificador coma identificador corc pyc     {::}
+            |   valores dop cora identificador coma identificador coma identificador coma identificador coma identificador coma doll lla cadena coma cod identificador cod coma cod identificador cod coma cod identificador cod llc corc pyc {: :}
+            ; 
+
+MEIN::= mein lla INSTRUCCIONES llc {::}
+    ;
+
+DECLARACION_GLOB::= globales lla INST llc {::}
+                ;
+
+DECLARACION_GRAPH::=  graficas lla INST llc {::}
+                ;
+
+COMPARE::= compare cora cosi cadena cosi coma cosi cadena cosi corc pyc {::}
+        ;
