@@ -30,7 +30,7 @@ public class GSintacticoFCA {
         opciones[4] = "-parser";         
         
         //Le damos nombre a esa clase del paso anterior
-        opciones[5] = "Sintactico"; 
+        opciones[5] = "SintacticoFCA"; 
         
         //Le decimos donde se encuentra el archivo .cup 
         opciones[6] = "src/AnalizadoresFCA/AnaSintacticoFCA.cup"; 

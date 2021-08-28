@@ -64,13 +64,11 @@ INST::= INST INSTRUCCION {::}
     ;
 
 INSTRUCCION::=  string identificador igual cod cadena cod pyc    {::}
-            |   doubleFCA   identificador igual digito pyc {::}
+            |   doubleFCA   identificador igual digito pyc       {::}
             |   titulo dop identificador pyc                     {::}
-            |   titulox dop cod cadena cod pyc    {::}
-            |   tituloy dop cod cadena cod pyc    {::}
-            |   archivo dop cod cadena cod pyc    {::}
-            |   ejex dop cora cod cadena cod coma cod cadena cod coma identificador coma identificador coma identificador coma identificador corc pyc     {::}
-            |   valores dop cora identificador coma identificador coma identificador coma identificador coma identificador coma doll lla cadena coma cod identificador cod coma cod identificador cod coma cod identificador cod llc corc pyc {: :}
+            |   titulox dop cod cadena cod pyc                   {::}
+            |   tituloy dop cod cadena cod pyc                   {::}
+            |   archivo dop cod cadena cod pyc                   {::}
             ; 
 
 MEIN::= mein lla INSTRUCCIONES llc {::}
