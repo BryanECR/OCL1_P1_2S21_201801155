@@ -8,40 +8,38 @@ package AnalizadoresFCA;
 /** CUP generated class containing symbol constants. */
 public class SimbolosFCA {
   /* terminals */
-  public static final int string = 16;
-  public static final int pyc = 3;
-  public static final int parc = 11;
-  public static final int cosi = 13;
-  public static final int cadena = 27;
-  public static final int para = 10;
-  public static final int globales = 24;
-  public static final int coma = 7;
-  public static final int archivo = 21;
-  public static final int doubleFCA = 26;
-  public static final int tituloy = 20;
-  public static final int titulox = 19;
-  public static final int llc = 6;
-  public static final int cod = 2;
-  public static final int titulo = 17;
-  public static final int lla = 5;
-  public static final int mein = 23;
-  public static final int ejex = 15;
-  public static final int digito = 28;
-  public static final int igual = 14;
+  public static final int string = 14;
+  public static final int pyc = 2;
+  public static final int parc = 10;
+  public static final int cadena = 26;
+  public static final int para = 9;
+  public static final int ruta = 27;
+  public static final int decimal = 25;
+  public static final int globales = 22;
+  public static final int coma = 6;
+  public static final int archivo = 19;
+  public static final int doubleFCA = 24;
+  public static final int tituloy = 18;
+  public static final int titulox = 17;
+  public static final int llc = 5;
+  public static final int lla = 4;
+  public static final int titulo = 15;
+  public static final int mein = 21;
+  public static final int ejex = 13;
+  public static final int igual = 12;
   public static final int EOF = 0;
   public static final int error = 1;
-  public static final int dop = 4;
-  public static final int doll = 12;
-  public static final int graficas = 25;
-  public static final int corc = 9;
-  public static final int valores = 18;
-  public static final int cora = 8;
-  public static final int compare = 22;
-  public static final int identificador = 29;
+  public static final int dop = 3;
+  public static final int doll = 11;
+  public static final int graficas = 23;
+  public static final int corc = 8;
+  public static final int valores = 16;
+  public static final int cora = 7;
+  public static final int compare = 20;
+  public static final int identificador = 28;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "cod",
   "pyc",
   "dop",
   "lla",
@@ -52,7 +50,6 @@ public class SimbolosFCA {
   "para",
   "parc",
   "doll",
-  "cosi",
   "igual",
   "ejex",
   "string",
@@ -66,8 +63,9 @@ public class SimbolosFCA {
   "globales",
   "graficas",
   "doubleFCA",
+  "decimal",
   "cadena",
-  "digito",
+  "ruta",
   "identificador"
   };
 }

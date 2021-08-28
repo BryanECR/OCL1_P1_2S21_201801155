@@ -30,15 +30,15 @@ action code
 /*--------------- 2da Area: Declaraciones -----------------------*/
 
 //------> declaracion de terminales 
-terminal String cod, pyc, dop, lla, llc, coma, cora, corc, para, parc, doll, cosi, igual;
+terminal String pyc, dop, lla, llc, coma, cora, corc, para, parc, doll, igual;
 terminal String ejex, string, titulo, valores, titulox, tituloy, archivo, compare, mein, globales, graficas, doubleFCA;
-terminal String cadena, digito, identificador;
+terminal String decimal, cadena, ruta, identificador;
 
 //------> declaracion de no terminales
 non terminal INICIO, INSTRUCCION, INSTRUCCIONES, INST, MEIN, DECLARACION_GLOB, DECLARACION_GRAPH, COMPARE;
 
 //------> precedencia
-precedence left cod, pyc, dop, coma, cora, corc, lla, llc, para, parc, doll, igual, cosi;
+precedence left pyc, dop, coma, cora, corc, lla, llc, para, parc, doll, igual;
 
 
 start with INICIO;
@@ -48,6 +48,8 @@ start with INICIO;
 INICIO::= INSTRUCCIONES   {: :} 
        ;
 
+MEIN::= mein lla INSTRUCCIONES llc {::}
+    ;
 
 INSTRUCCIONES::= INSTRUCCIONES MEIN                 {::}
              |   MEIN                               {::}
@@ -63,16 +65,15 @@ INST::= INST INSTRUCCION {::}
     | INSTRUCCION        {::}
     ;
 
-INSTRUCCION::=  string identificador igual cod cadena cod pyc    {::}
-            |   doubleFCA   identificador igual digito pyc       {::}
-            |   titulo dop identificador pyc                     {::}
-            |   titulox dop cod cadena cod pyc                   {::}
-            |   tituloy dop cod cadena cod pyc                   {::}
-            |   archivo dop cod cadena cod pyc                   {::}
+INSTRUCCION::=  string identificador igual cadena pyc         {::}
+            |   doubleFCA identificador igual decimal pyc     {::}
+            |   titulo dop identificador pyc                  {::}
+            |   titulox dop cadena pyc                        {::}
+            |   tituloy dop cadena pyc                        {::}
+            |   archivo dop cadena pyc                        {::}
+            |   compare cora ruta coma ruta corc pyc          {::}
             ; 
 
-MEIN::= mein lla INSTRUCCIONES llc {::}
-    ;
 
 DECLARACION_GLOB::= globales lla INST llc {::}
                 ;
@@ -80,5 +81,5 @@ DECLARACION_GLOB::= globales lla INST llc {::}
 DECLARACION_GRAPH::=  graficas lla INST llc {::}
                 ;
 
-COMPARE::= compare cora cosi cadena cosi coma cosi cadena cosi corc pyc {::}
+COMPARE::= compare para ruta coma ruta parc pyc   {::}
         ;

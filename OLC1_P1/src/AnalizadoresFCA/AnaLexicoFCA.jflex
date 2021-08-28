@@ -28,8 +28,10 @@ import javax.swing.JOptionPane;
 %unicode
 
 //------> Expresiones Regulares
-digito              = [0-9]+
-cadena              = [a-zA-ZÑñ]+
+decimal             = [0-9]+("."?[0-9]?[0-9]?)
+cadena              = [\"][^\"\n]+[\"]
+ruta                = [\'][^\'\n]+[\']
+identificador       = [A-z]([A-z]|[0-9]|\_)*
 
 //------> Estados
 
@@ -40,7 +42,6 @@ cadena              = [a-zA-ZÑñ]+
   ------------------------------------------------*/
 
 //-----> Simbolos
-"\""         { System.out.println("Reconocio "+yytext()+" cod"); return new Symbol(SimbolosFCA.cod, yycolumn, yyline, yytext()); }
 ";"          { System.out.println("Reconocio "+yytext()+" pyc"); return new Symbol(SimbolosFCA.pyc, yycolumn, yyline, yytext()); }
 ":"          { System.out.println("Reconocio "+yytext()+" dop"); return new Symbol(SimbolosFCA.dop, yycolumn, yyline, yytext()); }
 "{"          { System.out.println("Reconocio "+yytext()+" lla"); return new Symbol(SimbolosFCA.lla, yycolumn, yyline, yytext()); }
@@ -51,7 +52,6 @@ cadena              = [a-zA-ZÑñ]+
 "("          { System.out.println("Reconocio "+yytext()+" para"); return new Symbol(SimbolosFCA.para, yycolumn, yyline, yytext()); }
 ")"          { System.out.println("Reconocio "+yytext()+" parc"); return new Symbol(SimbolosFCA.parc, yycolumn, yyline, yytext()); }
 "$"          { System.out.println("Reconocio "+yytext()+" doll"); return new Symbol(SimbolosFCA.doll, yycolumn, yyline, yytext()); }
-"\'"         { System.out.println("Reconocio "+yytext()+" cosi"); return new Symbol(SimbolosFCA.cosi, yycolumn, yyline, yytext()); }
 "="          { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(SimbolosFCA.igual, yycolumn, yyline, yytext()); }
 
 
@@ -71,9 +71,10 @@ cadena              = [a-zA-ZÑñ]+
 
 
 //-------> Simbolos ER
+{decimal}                               { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(SimbolosFCA.decimal, yycolumn, yyline, yytext()); }
 {cadena}                                { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(SimbolosFCA.cadena, yycolumn, yyline, yytext()); }
-{digito}                                { System.out.println("Reconocio "+yytext()+" digito"); return new Symbol(SimbolosFCA.digito, yycolumn, yyline, yytext()); }
-{cadena}+({cadena}|{digito}|"_")*       { System.out.println("Reconocio "+yytext()+" identificador"); return new Symbol(SimbolosFCA.identificador, yycolumn, yyline, yytext()); }
+{ruta}                                  { System.out.println("Reconocio "+yytext()+" ruta"); return new Symbol(SimbolosFCA.ruta, yycolumn, yyline, yytext()); }
+{identificador}                         { System.out.println("Reconocio "+yytext()+" identificador"); return new Symbol(SimbolosFCA.identificador, yycolumn, yyline, yytext()); }
 
 
 //------> Espacios
