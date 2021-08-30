@@ -3,7 +3,7 @@
  ---------------------------------------------------*/
 
 //------> Paquetes,importaciones
-package AnalizadoresFCA;
+package Analizadores;
 import java_cup.runtime.*;
 import javax.swing.JOptionPane;
 
@@ -30,7 +30,6 @@ import javax.swing.JOptionPane;
 //------> Expresiones Regulares
 decimal             = [0-9]+("."?[0-9]?[0-9]?)
 cadena              = [\"][^\"\n]+[\"]
-ruta                = [\'][^\'\n]+[\']
 identificador       = [A-z]([A-z]|[0-9]|\_)*
 
 //------> Estados
@@ -47,19 +46,14 @@ identificador       = [A-z]([A-z]|[0-9]|\_)*
 "{"          { System.out.println("Reconocio "+yytext()+" lla"); return new Symbol(SimbolosFCA.lla, yycolumn, yyline, yytext()); }
 "}"          { System.out.println("Reconocio "+yytext()+" llc"); return new Symbol(SimbolosFCA.llc, yycolumn, yyline, yytext()); }
 ","          { System.out.println("Reconocio "+yytext()+" coma"); return new Symbol(SimbolosFCA.coma, yycolumn, yyline, yytext()); }
-"["          { System.out.println("Reconocio "+yytext()+" cora"); return new Symbol(SimbolosFCA.cora, yycolumn, yyline, yytext()); }
-"]"          { System.out.println("Reconocio "+yytext()+" corc"); return new Symbol(SimbolosFCA.corc, yycolumn, yyline, yytext()); }
 "("          { System.out.println("Reconocio "+yytext()+" para"); return new Symbol(SimbolosFCA.para, yycolumn, yyline, yytext()); }
 ")"          { System.out.println("Reconocio "+yytext()+" parc"); return new Symbol(SimbolosFCA.parc, yycolumn, yyline, yytext()); }
-"$"          { System.out.println("Reconocio "+yytext()+" doll"); return new Symbol(SimbolosFCA.doll, yycolumn, yyline, yytext()); }
 "="          { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(SimbolosFCA.igual, yycolumn, yyline, yytext()); }
 
 
 //-----> Palabras reservadas
-"ejex"    { System.out.println("Reconocio "+yytext()+" ejex"); return new Symbol(SimbolosFCA.ejex, yycolumn, yyline, yytext()); } 
 "string"  { System.out.println("Reconocio "+yytext()+" string"); return new Symbol(SimbolosFCA.string, yycolumn, yyline, yytext()); }
 "titulo"  { System.out.println("Reconocio "+yytext()+" titulo"); return new Symbol(SimbolosFCA.titulo, yycolumn, yyline, yytext()); }
-"valores" { System.out.println("Reconocio "+yytext()+" valores"); return new Symbol(SimbolosFCA.valores, yycolumn, yyline, yytext()); }
 "titulox" { System.out.println("Reconocio "+yytext()+" titulox"); return new Symbol(SimbolosFCA.titulox, yycolumn, yyline, yytext()); }
 "tituloy" { System.out.println("Reconocio "+yytext()+" tituloy"); return new Symbol(SimbolosFCA.tituloy, yycolumn, yyline, yytext()); }
 "archivo" { System.out.println("Reconocio "+yytext()+" archivo"); return new Symbol(SimbolosFCA.archivo, yycolumn, yyline, yytext()); }
@@ -73,7 +67,6 @@ identificador       = [A-z]([A-z]|[0-9]|\_)*
 //-------> Simbolos ER
 {decimal}                               { System.out.println("Reconocio "+yytext()+" decimal"); return new Symbol(SimbolosFCA.decimal, yycolumn, yyline, yytext()); }
 {cadena}                                { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(SimbolosFCA.cadena, yycolumn, yyline, yytext()); }
-{ruta}                                  { System.out.println("Reconocio "+yytext()+" ruta"); return new Symbol(SimbolosFCA.ruta, yycolumn, yyline, yytext()); }
 {identificador}                         { System.out.println("Reconocio "+yytext()+" identificador"); return new Symbol(SimbolosFCA.identificador, yycolumn, yyline, yytext()); }
 
 

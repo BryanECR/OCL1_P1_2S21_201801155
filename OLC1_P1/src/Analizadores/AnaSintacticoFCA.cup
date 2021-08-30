@@ -1,6 +1,6 @@
 /*--------------- 1ra Area: Codigo de Usuario -----------------------*/
 //-------> importaciones, paquetes
-package AnalizadoresFCA;
+package Analizadores;
 import java_cup.runtime.Symbol;
 
 //------> Codigo para el parser,variables, metodos
@@ -30,30 +30,25 @@ action code
 /*--------------- 2da Area: Declaraciones -----------------------*/
 
 //------> declaracion de terminales 
-terminal String pyc, dop, lla, llc, coma, cora, corc, para, parc, doll, igual;
-terminal String ejex, string, titulo, valores, titulox, tituloy, archivo, compare, mein, globales, graficas, doubleFCA;
-terminal String decimal, cadena, ruta, identificador;
+terminal String pyc, dop, lla, llc, coma, para, parc, igual;
+terminal String string, titulo, titulox, tituloy, archivo, compare, mein, globales, graficas, doubleFCA;
+terminal String decimal, cadena, identificador;
 
 //------> declaracion de no terminales
-non terminal INICIO, INSTRUCCION, INSTRUCCIONES, INST, MEIN, DECLARACION_GLOB, DECLARACION_GRAPH, COMPARE;
+non terminal INICIO, INSTRUCCION, INSTRUCCIONES, INST, DECLARACION_GLOB, DECLARACION_GRAPH, COMPARE;
 
 //------> precedencia
-precedence left pyc, dop, coma, cora, corc, lla, llc, para, parc, doll, igual;
 
 
 start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::= INSTRUCCIONES   {: :} 
+INICIO::= mein lla INSTRUCCIONES llc  {: :} 
        ;
 
-MEIN::= mein lla INSTRUCCIONES llc {::}
-    ;
 
-INSTRUCCIONES::= INSTRUCCIONES MEIN                 {::}
-             |   MEIN                               {::}
-             |   INSTRUCCIONES DECLARACION_GLOB     {::}
+INSTRUCCIONES::= INSTRUCCIONES DECLARACION_GLOB     {::}
              |   DECLARACION_GLOB                   {::}
              |   INSTRUCCIONES DECLARACION_GRAPH    {::}
              |   DECLARACION_GRAPH                  {::}
@@ -71,8 +66,7 @@ INSTRUCCION::=  string identificador igual cadena pyc         {::}
             |   titulox dop cadena pyc                        {::}
             |   tituloy dop cadena pyc                        {::}
             |   archivo dop cadena pyc                        {::}
-            |   compare cora ruta coma ruta corc pyc          {::}
-            ; 
+            ;
 
 
 DECLARACION_GLOB::= globales lla INST llc {::}
@@ -81,5 +75,5 @@ DECLARACION_GLOB::= globales lla INST llc {::}
 DECLARACION_GRAPH::=  graficas lla INST llc {::}
                 ;
 
-COMPARE::= compare para ruta coma ruta parc pyc   {::}
-        ;
+COMPARE::= compare para cadena coma cadena parc pyc      {::}
+         ;

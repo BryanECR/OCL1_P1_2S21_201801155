@@ -9,7 +9,7 @@ package Generadores;
  *
  * @author sandr
  */
-public class GSintacticoFCA {
+public class GSintacticoJS {
     public static void main(String[] args)
     {
         String opciones[] = new String[7]; 
@@ -24,16 +24,16 @@ public class GSintacticoFCA {
         opciones[2] = "-symbols"; 
         
         //Le damos el nombre que queremos que tenga
-        opciones[3] = "SimbolosFCA";
+        opciones[3] = "Simbolos_JS";
         
         //Seleccionamos la opcion de clase parser
         opciones[4] = "-parser";         
         
         //Le damos nombre a esa clase del paso anterior
-        opciones[5] = "SintacticoFCA"; 
+        opciones[5] = "SintacticoJS"; 
         
         //Le decimos donde se encuentra el archivo .cup 
-        opciones[6] = "src/Analizadores/AnaSintacticoFCA.cup"; 
+        opciones[6] = "src/Analizadores/AnaSintacticoJS.cup"; 
         try 
         {
             java_cup.Main.main(opciones);

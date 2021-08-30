@@ -9,11 +9,11 @@ import java.io.File;
  *
  * @author sandr
  */
-public class GLexicoFCA {
+public class GLexicoJS {
     
     public static void main(String[] args) 
     {
-        String path="src/Analizadores/AnaLexicoFCA.jflex";
+        String path="src/Analizadores/AnaLexicoJS.jflex";
         generarLexer(path);
     } 
     

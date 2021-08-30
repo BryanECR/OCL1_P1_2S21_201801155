@@ -1,0 +1,80 @@
+/*--------------- 1ra Area: Codigo de Usuario -----------------------*/
+//-------> importaciones, paquetes
+package Analizadores;
+import java_cup.runtime.Symbol;
+
+//------> Codigo para el parser,variables, metodos
+parser code{:
+
+        //Podemos crear variables, listas, etc;
+        // deben de ser staticas si se quieren usar fuera
+        
+
+        public void syntax_error(Symbol s)
+        {
+            System.err.println("Error en la Linea " + (s.right+1) +" Columna "+(s.left+1)+ ". Identificador "+s.value + " no reconocido. Se ha recuperado del error." );
+        }
+
+        public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+        {
+            System.err.println("Error en la Linea " + (s.right+1)+ " Columna "+(s.left+1)+". Identificador " +s.value + " no reconocido.");
+        }
+        
+:}
+
+//------> Codigo para las acciones gramaticales
+action code
+{:  :}
+
+/*--------------- 2da Area: Declaraciones -----------------------*/
+
+//------> declaracion de terminales 
+terminal String Op_rel, Op_log, Op_ari, dop, pyc, para, parc, lla, llc, igual, punto;
+terminal String variable, If, Else, For, While, Do, Switch, Require, ClassJS, Case, Break;
+terminal String numero, cadena, identificador;
+
+//------> declaracion de no terminales
+non terminal INICIO, INSTRUCCIONES;
+non terminal VAR, E, IF, FOR, WHILE;
+
+//------> precedencia
+
+start with INICIO;
+
+/*--------------- 3ra Area: Reglas Semanticas -----------------------*/
+
+INICIO::= ClassJS identificador lla INSTRUCCIONES llc {::} 
+       ;
+
+INSTRUCCIONES::= INSTRUCCIONES VAR           {::}
+             |   VAR                         {::}
+             |   INSTRUCCIONES IF           {::}
+             |   IF             {::}
+             |   INSTRUCCIONES  FOR          {::}
+             |   FOR            {::}
+             |   INSTRUCCIONES  WHILE          {::}
+             |   WHILE   {::}
+             ;
+
+
+IF::= If para parc lla llc                 {::}
+    ;
+
+WHILE::= While para parc lla llc    {::}
+      |  Do lla llc While para parc {::}
+      ;
+
+FOR::= For para parc lla llc {::}
+    ;
+
+VAR::=  variable identificador igual E pyc  {::}
+    |   variable identificador igual E      {::}
+    |   variable identificador              {::}
+    |   identificador igual E pyc           {::}
+    |   identificador igual E               {::}
+    ;
+
+
+E::= numero     {::}
+   | cadena     {::}
+   ;

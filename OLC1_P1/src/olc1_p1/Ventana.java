@@ -5,8 +5,10 @@
  */
 package olc1_p1;
 
-import AnalizadoresFCA.Analizador_lexicoFCA;
-import AnalizadoresFCA.SintacticoFCA;
+
+import Analizadores.Analizador_lexico_JS;
+
+import Analizadores.SintacticoJS;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -142,7 +144,8 @@ public class Ventana extends javax.swing.JFrame {
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         // TODO add your handling code here:
-                try {
+        /*
+        try {
             SintacticoFCA sintactico = new SintacticoFCA(new Analizador_lexicoFCA(new BufferedReader( new StringReader(TextAreaEditor.getText()))));
             sintactico.parse();
             System.out.println("Analizado con exito");
@@ -153,6 +156,22 @@ public class Ventana extends javax.swing.JFrame {
         
        
         JOptionPane.showMessageDialog(null, "Analizado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        */
+        try {
+            SintacticoJS sintactico = new SintacticoJS(new Analizador_lexico_JS(new BufferedReader( new StringReader(TextAreaEditor.getText()))));
+            sintactico.parse();
+            System.out.println("Analizado con exito");
+            
+        }catch (Exception ex){
+            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       
+        JOptionPane.showMessageDialog(null, "Analizado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        
+        
+        
+        
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
     private void btnArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoActionPerformed
