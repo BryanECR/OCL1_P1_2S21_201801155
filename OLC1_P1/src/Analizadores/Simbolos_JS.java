@@ -12,17 +12,20 @@ public class Simbolos_JS {
   public static final int Else = 15;
   public static final int pyc = 6;
   public static final int parc = 8;
-  public static final int cadena = 25;
+  public static final int cadena = 28;
   public static final int para = 7;
   public static final int For = 16;
   public static final int Op_log = 3;
-  public static final int numero = 24;
+  public static final int numero = 27;
+  public static final int Console = 25;
   public static final int Break = 23;
+  public static final int Default = 24;
   public static final int llc = 10;
   public static final int lla = 9;
   public static final int punto = 12;
   public static final int igual = 11;
   public static final int EOF = 0;
+  public static final int Log = 26;
   public static final int Case = 22;
   public static final int If = 14;
   public static final int error = 1;
@@ -34,7 +37,7 @@ public class Simbolos_JS {
   public static final int ClassJS = 21;
   public static final int Require = 20;
   public static final int Op_rel = 2;
-  public static final int identificador = 26;
+  public static final int identificador = 29;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -60,6 +63,9 @@ public class Simbolos_JS {
   "ClassJS",
   "Case",
   "Break",
+  "Default",
+  "Console",
+  "Log",
   "numero",
   "cadena",
   "identificador"

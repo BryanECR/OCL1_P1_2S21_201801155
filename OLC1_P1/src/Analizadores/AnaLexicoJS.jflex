@@ -27,9 +27,9 @@ import javax.swing.JOptionPane;
 %unicode
 
 //------> Expresiones Regulares
-numero              = [0-9]+("."[0-9])*
+numero              = [0-9]+("."[0-9]+)*
 cadena              = [\"][^\"\n]+[\"]
-identificador       = [A-z]+([A-z]|[0-9]|"_")*
+identificador       = [A-z]+([A-z]+|[0-9]+|"_")*
 
 //------> Estados
 
@@ -66,6 +66,9 @@ identificador       = [A-z]+([A-z]|[0-9]|"_")*
 "class"     { System.out.println("Reconocio "+yytext()+" ClassJS"); return new Symbol(Simbolos_JS.ClassJS, yycolumn, yyline, yytext()); }
 "case"     { System.out.println("Reconocio "+yytext()+" Case"); return new Symbol(Simbolos_JS.Case, yycolumn, yyline, yytext()); }
 "break"     { System.out.println("Reconocio "+yytext()+" Break"); return new Symbol(Simbolos_JS.Break, yycolumn, yyline, yytext()); }
+"default"     { System.out.println("Reconocio "+yytext()+" Default"); return new Symbol(Simbolos_JS.Default, yycolumn, yyline, yytext()); }
+"console"     { System.out.println("Reconocio "+yytext()+" Console"); return new Symbol(Simbolos_JS.Console, yycolumn, yyline, yytext()); }
+"log"     { System.out.println("Reconocio "+yytext()+" Log"); return new Symbol(Simbolos_JS.Log, yycolumn, yyline, yytext()); }
 
 //-------> Simbolos ER
 {numero}                                { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos_JS.numero, yycolumn, yyline, yytext()); }
