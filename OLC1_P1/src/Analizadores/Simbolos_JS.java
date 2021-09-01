@@ -22,7 +22,7 @@ public class Simbolos_JS {
   public static final int Break = 24;
   public static final int Default = 25;
   public static final int llc = 10;
-  public static final int caracter = 30;
+  public static final int caracter = 31;
   public static final int lla = 9;
   public static final int punto = 12;
   public static final int igual = 11;
@@ -36,10 +36,10 @@ public class Simbolos_JS {
   public static final int Switch = 20;
   public static final int Do = 19;
   public static final int While = 18;
-  public static final int ClassJS = 21;
-  public static final int Require = 22;
+  public static final int ClassJS = 22;
+  public static final int Require = 21;
   public static final int Op_rel = 2;
-  public static final int identificador = 31;
+  public static final int identificador = 30;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -62,8 +62,8 @@ public class Simbolos_JS {
   "While",
   "Do",
   "Switch",
-  "ClassJS",
   "Require",
+  "ClassJS",
   "Case",
   "Break",
   "Default",
@@ -71,8 +71,8 @@ public class Simbolos_JS {
   "Log",
   "numero",
   "cadena",
-  "caracter",
-  "identificador"
+  "identificador",
+  "caracter"
   };
 }
 

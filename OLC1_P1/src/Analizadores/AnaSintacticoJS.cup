@@ -1,4 +1,3 @@
-  
 /*--------------- 1ra Area: Codigo de Usuario -----------------------*/
 //-------> importaciones, paquetes
 package Analizadores;
@@ -32,13 +31,13 @@ action code
 //------> declaracion de terminales 
 terminal String Op_rel, Op_log, Op_ari, dop, pyc, para, parc, lla, llc, igual, punto, coma;
 terminal String variable, If, Else, For, While, Do, Switch, Require, ClassJS, Case, Break, Default, Console, Log;
-terminal String numero, cadena, identificador;
+terminal String numero, cadena, identificador, caracter;
 
 //------> declaracion de no terminales
 non terminal INICIO, INSTRUCCIONES;
 non terminal IF, FOR, WHILE, METODO, SWITCH, CONSOLE;
 non terminal PARAMETROS, DECLARACION, COMPARACIONES, CASOS, CONCATENACION;
-non terminal E, CASE, PAR, CON, COMP;
+non terminal E, CASE, PAR, CON, COMP, I;
 
 //------> precedencia
 
@@ -66,22 +65,25 @@ INSTRUCCIONES::= INSTRUCCIONES DECLARACION   {::}
              ;
 
 
-
-
 FOR::= For para DECLARACION COMPARACIONES pyc CONCATENACION parc lla INSTRUCCIONES llc {::}
     ;
+
 
 IF::= If para COMPARACIONES parc lla INSTRUCCIONES llc   {::}
     | If Else para parc lla INSTRUCCIONES llc            {::}
     | Else lla INSTRUCCIONES llc                         {::}
     ;
+
+
 COMPARACIONES::= COMPARACIONES COMP {::}
               |  COMP               {::}
               ;
-COMP::= identificador Op_rel identificador {::}
-    |   identificador Op_rel E             {::}
-    |   E Op_rel identificador
-    |   Op_log                             {::}
+
+
+COMP::= identificador {::}
+    |   Op_rel        {::}
+    |   E             {::}
+    |   Op_log        {::}
     ;
 
 
@@ -90,71 +92,77 @@ WHILE::= While para COMPARACIONES parc lla INSTRUCCIONES llc        {::}
       ;
 
 
-
-
-
 SWITCH::= Switch para identificador parc lla CASOS llc {::}
        ;
+
+
 CASOS::= CASOS CASE {::}
       |  CASE
       ;
+
+
 CASE::= Case numero dop {::}
     |   Break pyc       {::}
     |   Default dop     {::}
     ;
 
 
-
-
-
-METODO::= identificador para PARAMETROS parc lla INSTRUCCIONES llc       {::}
+METODO::= identificador para PARAMETROS parc lla INSTRUCCIONES llc pyc   {::}
+        | identificador para PARAMETROS parc lla INSTRUCCIONES llc       {::}
         | identificador para parc lla INSTRUCCIONES llc                  {::}
         | identificador para PARAMETROS parc pyc                         {::}
         | identificador para PARAMETROS parc                             {::}
         ;
+
+
 PARAMETROS::= PARAMETROS PAR     {::}
            |  PAR                 {::}
            ;
+
+
 PAR::= identificador {::}
     |  coma          {::}
+    |  Op_ari        {::}
     |  E             {::}
     ;
 
 
-
-
 CONSOLE::= Console punto Log para CONCATENACION parc pyc {::}
-        |  Console punto Log para CONCATENACION parc  {::}
+        |  Console punto Log para CONCATENACION parc     {::}
         ;
+
 
 CONCATENACION::= CONCATENACION CON {::}
              |   CON               {::}
              ;
+
 
 CON::= identificador {::}
     |  Op_ari        {::}
     |  E             {::}
     ;
 
+
 E::= numero     {::}
    | cadena     {::}
+   | caracter   {::}
    ;
 
 
-DECLARACION::=  variable identificador igual identificador Op_ari identificador pyc  {::}
-            |   variable identificador igual identificador Op_ari identificador      {::}
-            |   variable identificador igual identificador Op_ari E pyc              {::}
-            |   variable identificador igual E Op_ari identificador pyc              {::}
-            |   variable identificador igual identificador Op_ari E                  {::}
-            |   variable identificador igual E Op_ari identificador                  {::}
-            |   variable identificador igual identificador pyc                       {::}
-            |   variable identificador igual identificador                           {::}
-            |   variable identificador igual E pyc                                   {::}
-            |   variable identificador igual E                                       {::}
-            |   variable identificador pyc                                           {::}
-            |   variable identificador                                               {::}
-            |   identificador igual E pyc                           {::}
-            |   identificador igual E                               {::}
-            |   identificador igual identificador pyc               {::}
-            |   identificador igual identificador                   {::}
+DECLARACION::=  variable I igual I Op_ari I pyc     {::}
+            |   variable I igual I Op_ari I         {::}
+            |   variable I igual I pyc              {::}
+            |   I igual I Op_ari I pyc              {::}
+            |   variable I igual I                  {::}
+            |   I igual I Op_ari I                  {::}
+            |   variable I pyc                      {::}
+            |   I igual I pyc                       {::}
+            |   variable I                          {::}
+            |   I igual I                           {::}
             ;
+
+
+I::= identificador {::}
+   | numero        {::}
+   | cadena        {::}
+   ;
