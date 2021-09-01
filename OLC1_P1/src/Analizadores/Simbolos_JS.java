@@ -9,35 +9,37 @@ package Analizadores;
 public class Simbolos_JS {
   /* terminals */
   public static final int Op_ari = 4;
-  public static final int Else = 15;
+  public static final int Else = 16;
   public static final int pyc = 6;
   public static final int parc = 8;
-  public static final int cadena = 28;
+  public static final int cadena = 29;
+  public static final int For = 17;
   public static final int para = 7;
-  public static final int For = 16;
   public static final int Op_log = 3;
-  public static final int numero = 27;
-  public static final int Console = 25;
-  public static final int Break = 23;
-  public static final int Default = 24;
+  public static final int coma = 13;
+  public static final int numero = 28;
+  public static final int Console = 26;
+  public static final int Break = 24;
+  public static final int Default = 25;
   public static final int llc = 10;
+  public static final int caracter = 30;
   public static final int lla = 9;
   public static final int punto = 12;
   public static final int igual = 11;
   public static final int EOF = 0;
-  public static final int Log = 26;
-  public static final int Case = 22;
-  public static final int If = 14;
+  public static final int Log = 27;
+  public static final int Case = 23;
+  public static final int If = 15;
   public static final int error = 1;
-  public static final int variable = 13;
+  public static final int variable = 14;
   public static final int dop = 5;
-  public static final int Switch = 19;
-  public static final int Do = 18;
-  public static final int While = 17;
+  public static final int Switch = 20;
+  public static final int Do = 19;
+  public static final int While = 18;
   public static final int ClassJS = 21;
-  public static final int Require = 20;
+  public static final int Require = 22;
   public static final int Op_rel = 2;
-  public static final int identificador = 29;
+  public static final int identificador = 31;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -52,6 +54,7 @@ public class Simbolos_JS {
   "llc",
   "igual",
   "punto",
+  "coma",
   "variable",
   "If",
   "Else",
@@ -59,8 +62,8 @@ public class Simbolos_JS {
   "While",
   "Do",
   "Switch",
-  "Require",
   "ClassJS",
+  "Require",
   "Case",
   "Break",
   "Default",
@@ -68,6 +71,7 @@ public class Simbolos_JS {
   "Log",
   "numero",
   "cadena",
+  "caracter",
   "identificador"
   };
 }

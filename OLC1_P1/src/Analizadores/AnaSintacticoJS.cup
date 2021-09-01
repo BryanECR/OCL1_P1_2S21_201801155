@@ -1,3 +1,4 @@
+  
 /*--------------- 1ra Area: Codigo de Usuario -----------------------*/
 //-------> importaciones, paquetes
 package Analizadores;
@@ -29,14 +30,15 @@ action code
 /*--------------- 2da Area: Declaraciones -----------------------*/
 
 //------> declaracion de terminales 
-terminal String Op_rel, Op_log, Op_ari, dop, pyc, para, parc, lla, llc, igual, punto;
+terminal String Op_rel, Op_log, Op_ari, dop, pyc, para, parc, lla, llc, igual, punto, coma;
 terminal String variable, If, Else, For, While, Do, Switch, Require, ClassJS, Case, Break, Default, Console, Log;
 terminal String numero, cadena, identificador;
 
 //------> declaracion de no terminales
 non terminal INICIO, INSTRUCCIONES;
 non terminal IF, FOR, WHILE, METODO, SWITCH, CONSOLE;
-non terminal PARAMETROS, DECLARACION, E, CASOS, CASE, SENTENCIA, SEN;
+non terminal PARAMETROS, DECLARACION, COMPARACIONES, CASOS, CONCATENACION;
+non terminal E, CASE, PAR, CON, COMP;
 
 //------> precedencia
 
@@ -59,91 +61,100 @@ INSTRUCCIONES::= INSTRUCCIONES DECLARACION   {::}
              |   SWITCH                      {::}
              |   INSTRUCCIONES  METODO       {::}
              |   METODO                      {::}
-             |   INSTRUCCIONES  SENTENCIA    {::}
-             |   SENTENCIA                   {::}
              |   INSTRUCCIONES  CONSOLE      {::}
              |   CONSOLE                     {::}
              ;
 
 
-IF::= If para SENTENCIA parc lla INSTRUCCIONES llc       {::}
+
+
+FOR::= For para DECLARACION COMPARACIONES pyc CONCATENACION parc lla INSTRUCCIONES llc {::}
+    ;
+
+IF::= If para COMPARACIONES parc lla INSTRUCCIONES llc   {::}
     | If Else para parc lla INSTRUCCIONES llc            {::}
     | Else lla INSTRUCCIONES llc                         {::}
     ;
+COMPARACIONES::= COMPARACIONES COMP {::}
+              |  COMP               {::}
+              ;
+COMP::= identificador Op_rel identificador {::}
+    |   identificador Op_rel E             {::}
+    |   E Op_rel identificador
+    |   Op_log                             {::}
+    ;
 
 
-WHILE::= While para SENTENCIA parc lla INSTRUCCIONES llc        {::}
-      |  Do lla INSTRUCCIONES llc While para SENTENCIA parc pyc {::}
+WHILE::= While para COMPARACIONES parc lla INSTRUCCIONES llc        {::}
+      |  Do lla INSTRUCCIONES llc While para COMPARACIONES parc pyc {::}
       ;
 
 
-FOR::= For para DECLARACION SENTENCIA SENTENCIA parc lla INSTRUCCIONES llc {::}
-    ;
+
 
 
 SWITCH::= Switch para identificador parc lla CASOS llc {::}
        ;
-
-
-CONSOLE::= Console punto Log para identificador parc pyc {::}
-        ;
-
-
-METODO::= identificador para PARAMETROS parc lla INSTRUCCIONES llc       {::}
-        | identificador para parc lla INSTRUCCIONES llc                  {::}
-        | identificador para PARAMETROS parc pyc                         {::}
-        | identificador para E parc pyc                                  {::}
-        | identificador para E parc                                      {::}
-        ;
-
-
 CASOS::= CASOS CASE {::}
       |  CASE
       ;
-
-
 CASE::= Case numero dop {::}
     |   Break pyc       {::}
     |   Default dop     {::}
     ;
 
 
-PARAMETROS::= PARAMETROS identificador      {::}
-           |  identificador                 {::}
+
+
+
+METODO::= identificador para PARAMETROS parc lla INSTRUCCIONES llc       {::}
+        | identificador para parc lla INSTRUCCIONES llc                  {::}
+        | identificador para PARAMETROS parc pyc                         {::}
+        | identificador para PARAMETROS parc                             {::}
+        ;
+PARAMETROS::= PARAMETROS PAR     {::}
+           |  PAR                 {::}
            ;
+PAR::= identificador {::}
+    |  coma          {::}
+    |  E             {::}
+    ;
 
 
-SENTENCIA::=  DECLARACION Op_ari identificador pyc    {::}
-           |  DECLARACION Op_ari identificador        {::}
-           |  identificador Op_ari Op_ari             {::}
-           |  DECLARACION Op_ari E pyc                {::}
-           |  Op_log para SEN parc                    {::}
-           |  DECLARACION Op_ari E                    {::}
-           |  SEN Op_log SEN                          {::}
-           ;
 
 
-DECLARACION::=  variable identificador igual identificador pyc  {::}
-            |   variable identificador igual identificador      {::}
-            |   identificador igual identificador pyc           {::}
-            |   variable identificador igual E pyc              {::}
-            |   identificador igual identificador               {::}
-            |   variable identificador igual E                  {::}
-            |   variable identificador pyc                      {::}
-            |   identificador igual E pyc                       {::}
-            |   variable identificador                          {::}
-            |   identificador igual E                           {::}
-            ;
+CONSOLE::= Console punto Log para CONCATENACION parc pyc {::}
+        |  Console punto Log para CONCATENACION parc  {::}
+        ;
 
+CONCATENACION::= CONCATENACION CON {::}
+             |   CON               {::}
+             ;
 
-SEN::= identificador Op_rel identificador pyc {::}
-   |   identificador Op_rel identificador     {::}
-   |   identificador Op_rel E pyc             {::}
-   |   identificador Op_rel E                 {::}
-   ;  
-
-
+CON::= identificador {::}
+    |  Op_ari        {::}
+    |  E             {::}
+    ;
 
 E::= numero     {::}
    | cadena     {::}
    ;
+
+
+DECLARACION::=  variable identificador igual identificador Op_ari identificador pyc  {::}
+            |   variable identificador igual identificador Op_ari identificador      {::}
+            |   variable identificador igual identificador Op_ari E pyc              {::}
+            |   variable identificador igual E Op_ari identificador pyc              {::}
+            |   variable identificador igual identificador Op_ari E                  {::}
+            |   variable identificador igual E Op_ari identificador                  {::}
+            |   variable identificador igual identificador pyc                       {::}
+            |   variable identificador igual identificador                           {::}
+            |   variable identificador igual E pyc                                   {::}
+            |   variable identificador igual E                                       {::}
+            |   variable identificador pyc                                           {::}
+            |   variable identificador                                               {::}
+            |   identificador igual E pyc                           {::}
+            |   identificador igual E                               {::}
+            |   identificador igual identificador pyc               {::}
+            |   identificador igual identificador                   {::}
+            ;

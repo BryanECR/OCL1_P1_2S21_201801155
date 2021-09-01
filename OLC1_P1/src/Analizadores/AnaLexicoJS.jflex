@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
 //------> Expresiones Regulares
 numero              = [0-9]+("."[0-9]+)*
 cadena              = [\"][^\"\n]+[\"]
+caracter            = [\'][^\'\n]+[\']
 identificador       = [A-z]+([A-z]+|[0-9]+|"_")*
 
 //------> Estados
@@ -51,6 +52,7 @@ identificador       = [A-z]+([A-z]+|[0-9]+|"_")*
 "}"     { System.out.println("Reconocio "+yytext()+" llc"); return new Symbol(Simbolos_JS.llc, yycolumn, yyline, yytext()); }
 "="     { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(Simbolos_JS.igual, yycolumn, yyline, yytext()); }
 "."     { System.out.println("Reconocio "+yytext()+" punto"); return new Symbol(Simbolos_JS.punto, yycolumn, yyline, yytext()); }
+","     { System.out.println("Reconocio "+yytext()+" coma"); return new Symbol(Simbolos_JS.coma, yycolumn, yyline, yytext()); }
 
 
 
@@ -73,6 +75,7 @@ identificador       = [A-z]+([A-z]+|[0-9]+|"_")*
 //-------> Simbolos ER
 {numero}                                { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos_JS.numero, yycolumn, yyline, yytext()); }
 {cadena}                                { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos_JS.cadena, yycolumn, yyline, yytext()); }
+{caracter}                                { System.out.println("Reconocio "+yytext()+" caracter"); return new Symbol(Simbolos_JS.caracter, yycolumn, yyline, yytext()); }
 {identificador}                         { System.out.println("Reconocio "+yytext()+" identificador"); return new Symbol(Simbolos_JS.identificador, yycolumn, yyline, yytext()); }
 
 
