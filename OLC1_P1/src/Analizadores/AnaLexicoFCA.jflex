@@ -32,6 +32,10 @@ decimal             = [0-9]+("."?[0-9]?[0-9]?)
 cadena              = [\"][^\"\n]+[\"]
 identificador       = [A-z]([A-z]|[0-9]|\_)*
 
+LineTerminator = \r|\n|\r\n
+InputCharacter = [^\r\n]
+comentariosimple    = "##" {InputCharacter}* {LineTerminator}?
+
 //------> Estados
 
 %%
@@ -71,6 +75,7 @@ identificador       = [A-z]([A-z]|[0-9]|\_)*
 
 
 //------> Espacios
+{comentariosimple}      {System.out.println("Comentario: "+yytext()); }
 [ \t\r\n\f]             {/* Espacios en blanco, se ignoran */}
 
 //-------> Errores Lexicos 

@@ -32,6 +32,10 @@ cadena              = [\"][^\"\n]+[\"]
 caracter            = [\'][^\'\n]+[\']
 identificador       = [A-z]+([A-z]+|[0-9]+|"_")*
 
+LineTerminator = \r|\n|\r\n
+InputCharacter = [^\r\n]
+comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
+
 //------> Estados
 
 %%
@@ -66,20 +70,21 @@ identificador       = [A-z]+([A-z]+|[0-9]+|"_")*
 "switch"    { System.out.println("Reconocio "+yytext()+" Switch"); return new Symbol(Simbolos_JS.Switch, yycolumn, yyline, yytext()); }
 "require"   { System.out.println("Reconocio "+yytext()+" Require"); return new Symbol(Simbolos_JS.Require, yycolumn, yyline, yytext()); }
 "class"     { System.out.println("Reconocio "+yytext()+" ClassJS"); return new Symbol(Simbolos_JS.ClassJS, yycolumn, yyline, yytext()); }
-"case"     { System.out.println("Reconocio "+yytext()+" Case"); return new Symbol(Simbolos_JS.Case, yycolumn, yyline, yytext()); }
+"case"      { System.out.println("Reconocio "+yytext()+" Case"); return new Symbol(Simbolos_JS.Case, yycolumn, yyline, yytext()); }
 "break"     { System.out.println("Reconocio "+yytext()+" Break"); return new Symbol(Simbolos_JS.Break, yycolumn, yyline, yytext()); }
-"default"     { System.out.println("Reconocio "+yytext()+" Default"); return new Symbol(Simbolos_JS.Default, yycolumn, yyline, yytext()); }
-"console"     { System.out.println("Reconocio "+yytext()+" Console"); return new Symbol(Simbolos_JS.Console, yycolumn, yyline, yytext()); }
-"log"     { System.out.println("Reconocio "+yytext()+" Log"); return new Symbol(Simbolos_JS.Log, yycolumn, yyline, yytext()); }
+"default"   { System.out.println("Reconocio "+yytext()+" Default"); return new Symbol(Simbolos_JS.Default, yycolumn, yyline, yytext()); }
+"console"   { System.out.println("Reconocio "+yytext()+" Console"); return new Symbol(Simbolos_JS.Console, yycolumn, yyline, yytext()); }
+"log"       { System.out.println("Reconocio "+yytext()+" Log"); return new Symbol(Simbolos_JS.Log, yycolumn, yyline, yytext()); }
 
 //-------> Simbolos ER
 {numero}                                { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos_JS.numero, yycolumn, yyline, yytext()); }
 {cadena}                                { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos_JS.cadena, yycolumn, yyline, yytext()); }
-{caracter}                                { System.out.println("Reconocio "+yytext()+" caracter"); return new Symbol(Simbolos_JS.caracter, yycolumn, yyline, yytext()); }
+{caracter}                              { System.out.println("Reconocio "+yytext()+" caracter"); return new Symbol(Simbolos_JS.caracter, yycolumn, yyline, yytext()); }
 {identificador}                         { System.out.println("Reconocio "+yytext()+" identificador"); return new Symbol(Simbolos_JS.identificador, yycolumn, yyline, yytext()); }
 
 
 //------> Espacios
+{comentariosimple}      { System.out.println("Comentario: "+yytext()); }
 [ \t\r\n\f]             {/* Espacios en blanco, se ignoran */}
 
 //-------> Errores Lexicos 
