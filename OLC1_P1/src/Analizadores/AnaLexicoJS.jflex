@@ -32,9 +32,8 @@ cadena              = [\"][^\"\n]+[\"]
 caracter            = [\'][^\'\n]+[\']
 identificador       = [A-z]+([A-z]+|[0-9]+|"_")*
 
-LineTerminator = \r|\n|\r\n
-InputCharacter = [^\r\n]
-comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
+comentario              = ("/*"+[\s\S]*?"*/")|("/*"+.*"*/")|"//".*?[\r\n][\r\n]*
+
 
 //------> Estados
 
@@ -84,8 +83,9 @@ comentariosimple    = "//" {InputCharacter}* {LineTerminator}?
 
 
 //------> Espacios
-{comentariosimple}      { System.out.println("Comentario: "+yytext()); }
-[ \t\r\n\f]             {/* Espacios en blanco, se ignoran */}
+{comentario}         { System.out.println("Comentario: "+yytext()); }
+
+[ \t\r\n\f]                {/* Espacios en blanco, se ignoran */}
 
 //-------> Errores Lexicos 
 .           {System.out.println("Error Lexico " + yytext() + "Linea: " + yyline + "Columna: " + yycolumn); }
