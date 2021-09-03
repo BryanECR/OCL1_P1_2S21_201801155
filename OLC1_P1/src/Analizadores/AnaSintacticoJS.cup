@@ -2,12 +2,21 @@
 //-------> importaciones, paquetes
 package Analizadores;
 import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+import olc1_p1.Ventana;
+import olc1_p1.Nodo;
 
 //------> Codigo para el parser,variables, metodos
 parser code{:
 
         //Podemos crear variables, listas, etc;
         // deben de ser staticas si se quieren usar fuera
+
+        public static Nodo raiz;
+        
+        public Nodo getRaiz(){
+            return raiz;
+        }
         
 
         public void syntax_error(Symbol s)
@@ -34,10 +43,10 @@ terminal String variable, If, Else, For, While, Do, Switch, Require, ClassJS, Ca
 terminal String numero, cadena, identificador, caracter;
 
 //------> declaracion de no terminales
-non terminal INICIO, INSTRUCCIONES;
-non terminal IF, FOR, WHILE, METODO, SWITCH, CONSOLE;
-non terminal PARAMETROS, DECLARACION, COMPARACIONES, CASOS, CONCATENACION;
-non terminal E, CASE, PAR, CON, COMP, I;
+non terminal Nodo INICIO, INSTRUCCIONES;
+non terminal Nodo IF, FOR, WHILE, METODO, SWITCH, CONSOLE, CLASS;
+non terminal Nodo PARAMETROS, DECLARACION, COMPARACIONES, CASOS, CONCATENACION;
+non terminal Nodo E, CASE, PAR, CON, COMP, I, INST;
 
 //------> precedencia
 
@@ -45,124 +54,522 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::= ClassJS identificador lla INSTRUCCIONES llc {::} 
+INICIO::= CLASS:a {:  parser.raiz = a;  :}
        ;
 
-INSTRUCCIONES::= INSTRUCCIONES DECLARACION   {::}
-             |   DECLARACION                 {::}
-             |   INSTRUCCIONES IF            {::}
-             |   IF                          {::}
-             |   INSTRUCCIONES  FOR          {::}
-             |   FOR                         {::}
-             |   INSTRUCCIONES  WHILE        {::}
-             |   WHILE                       {::}
-             |   INSTRUCCIONES  SWITCH       {::}
-             |   SWITCH                      {::}
-             |   INSTRUCCIONES  METODO       {::}
-             |   METODO                      {::}
-             |   INSTRUCCIONES  CONSOLE      {::}
-             |   CONSOLE                     {::}
+CLASS::= ClassJS:a identificador:b lla:c INST:d llc:e   {:
+                                                            Nodo padre = new Nodo("CLASS","",0,0);
+                                                            padre.AddHijo(new Nodo("class", a, aright, aleft));
+                                                            padre.AddHijo(new Nodo("identificador", b, bright, bleft));
+                                                            padre.AddHijo(new Nodo("lla", c, cright, cleft));
+                                                            padre.AddHijo(d);
+                                                            padre.AddHijo(new Nodo("llc", e, eright, eleft));
+                                                            RESULT = padre;
+                                                        :}
+      ;
+
+INST::= INST:a INSTRUCCIONES:b {:
+                                    Nodo padre = new Nodo("INST","",0,0);
+                                    padre.AddHijo(a);
+                                    padre.AddHijo(b);
+                                    RESULT = padre;
+                               :}
+    |   INSTRUCCIONES:a     {:
+                                Nodo padre = new Nodo("INST","",0,0);
+                                padre.AddHijo(a);
+                                RESULT = padre;
+                            :}
+    ;
+
+INSTRUCCIONES::= DECLARACION:a  {:
+                                    Nodo padre = new Nodo("DECLARACION","",0,0);
+                                    padre.AddHijo(a);
+                                    RESULT = padre;
+                                :}
+             |   IF:a           {:
+                                    Nodo padre = new Nodo("IF","",0,0);
+                                    padre.AddHijo(a);
+                                    RESULT = padre;
+                                :}
+             |   FOR:a          {:
+                                    Nodo padre = new Nodo("FOR","",0,0);
+                                    padre.AddHijo(a);
+                                    RESULT = padre;
+                                :}
+             |   WHILE:a        {:
+                                    Nodo padre = new Nodo("WHILE","",0,0);
+                                    padre.AddHijo(a);
+                                    RESULT = padre;
+                                :}
+             |   SWITCH:a       {:
+                                    Nodo padre = new Nodo("SWITCH","",0,0);
+                                    padre.AddHijo(a);
+                                    RESULT = padre;
+                                :}
+             |   METODO:a       {:
+                                    Nodo padre = new Nodo("METODO","",0,0);
+                                    padre.AddHijo(a);
+                                    RESULT = padre;
+                                :}
+             |   CONSOLE:a      {:
+                                    Nodo padre = new Nodo("CONSOLE","",0,0);
+                                    padre.AddHijo(a);
+                                    RESULT = padre;
+                                :}
              ;
 
 
-FOR::= For para DECLARACION COMPARACIONES pyc CONCATENACION parc lla INSTRUCCIONES llc {::}
+FOR::= For:a para:b DECLARACION:c COMPARACIONES:d pyc:e CONCATENACION:f parc:g lla:h INSTRUCCIONES:i llc:j {:
+                                                                                                                Nodo padre = new Nodo("FOR","",0,0);
+                                                                                                                padre.AddHijo(new Nodo("for", a, aright, aleft));
+                                                                                                                padre.AddHijo(new Nodo("para", b, bright, bleft));
+                                                                                                                padre.AddHijo(c);
+                                                                                                                padre.AddHijo(d);
+                                                                                                                padre.AddHijo(new Nodo("pyc", e, eright, eleft));
+                                                                                                                padre.AddHijo(f);
+                                                                                                                padre.AddHijo(new Nodo("parc", g, gright, gleft));
+                                                                                                                padre.AddHijo(new Nodo("lla", h, hright, hleft));
+                                                                                                                padre.AddHijo(i);
+                                                                                                                padre.AddHijo(new Nodo("llc", j, jright, jleft));
+                                                                                                                RESULT = padre;
+                                                                                                            :}
     ;
 
 
-IF::= If para COMPARACIONES parc lla INSTRUCCIONES llc   {::}
-    | If Else para parc lla INSTRUCCIONES llc            {::}
-    | Else lla INSTRUCCIONES llc                         {::}
+IF::= If:a para:b COMPARACIONES:c parc:d lla:e INSTRUCCIONES:f llc:g   {:
+                                                                            Nodo padre = new Nodo("IF","",0,0);
+                                                                            padre.AddHijo(new Nodo("if", a, aright, aleft));
+                                                                            padre.AddHijo(new Nodo("para", b, bright, bleft));
+                                                                            padre.AddHijo(c);
+                                                                            padre.AddHijo(new Nodo("parc", d, dright, dleft));
+                                                                            padre.AddHijo(new Nodo("lla", e, eright, eleft));
+                                                                            padre.AddHijo(f);
+                                                                            padre.AddHijo(new Nodo("llc", g, gright, gleft));
+                                                                            RESULT = padre;
+                                                                        :}
+    | If:a Else:b para:c parc:d lla:e INSTRUCCIONES:f llc:g     {:
+                                                                    Nodo padre = new Nodo("IF","",0,0);
+                                                                    padre.AddHijo(new Nodo("if", a, aright, aleft));
+                                                                    padre.AddHijo(new Nodo("else", b, bright, bleft));
+                                                                    padre.AddHijo(new Nodo("para", c, cright, cleft));
+                                                                    padre.AddHijo(new Nodo("parc", d, dright, dleft));
+                                                                    padre.AddHijo(new Nodo("lla", e, eright, eleft));
+                                                                    padre.AddHijo(f);
+                                                                    padre.AddHijo(new Nodo("llc", g, gright, gleft));
+                                                                    RESULT = padre;
+                                                                :}
+    | Else:a lla:b INSTRUCCIONES:c llc:d                        {:
+                                                                    Nodo padre = new Nodo("IF","",0,0);
+                                                                    padre.AddHijo(new Nodo("else", a, aright, aleft));
+                                                                    padre.AddHijo(new Nodo("lla", b, bright, bleft));
+                                                                    padre.AddHijo(c);
+                                                                    padre.AddHijo(new Nodo("llc", d, dright, dleft));
+                                                                    RESULT = padre;
+                                                                :}
     ;
 
 
-COMPARACIONES::= COMPARACIONES COMP {::}
-              |  COMP               {::}
+COMPARACIONES::= COMPARACIONES:a COMP:b {:
+                                            Nodo padre =  new Nodo("COMPARACIONES","",0,0);
+                                            padre.AddHijo(a);
+                                            padre.AddHijo(b);
+                                            RESULT = padre;
+                                        :}
+              |  COMP:a                {:
+                                            Nodo padre =  new Nodo("COMPARACIONES","",0,0);
+                                            padre.AddHijo(a);
+                                            RESULT = padre;
+                                        :}
               ;
 
 
-COMP::= identificador {::}
-    |   Op_rel        {::}
-    |   E             {::}
-    |   Op_log        {::}
+COMP::= identificador:a {:
+                            Nodo padre =  new Nodo("COMP","",0,0);
+                            padre.AddHijo(new Nodo("identificador", a, aright, aleft));
+                            RESULT = padre;
+                       :}
+    |   Op_rel:a        {:
+                            Nodo padre =  new Nodo("COMP","",0,0);
+                            padre.AddHijo(new Nodo("Op_rel", a, aright, aleft));
+                            RESULT = padre;
+                       :}
+    |   E:a             {:
+                            Nodo padre =  new Nodo("COMP","",0,0);
+                            padre.AddHijo(a);
+                            RESULT = padre;
+                       :}
+    |   Op_log:a        {:
+                            Nodo padre =  new Nodo("COMP","",0,0);
+                            padre.AddHijo(new Nodo("Op_log", a, aright, aleft));
+                            RESULT = padre;
+                       :}
     ;
 
 
-WHILE::= While para COMPARACIONES parc lla INSTRUCCIONES llc        {::}
-      |  Do lla INSTRUCCIONES llc While para COMPARACIONES parc pyc {::}
+WHILE::= While:a para:b COMPARACIONES:c parc:d lla:e INSTRUCCIONES:f llc:g  {:
+                                                                                Nodo padre = new Nodo("WHILE","",0,0);
+                                                                                padre.AddHijo(new Nodo("while", a, aright, aleft));
+                                                                                padre.AddHijo(new Nodo("para", b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                padre.AddHijo(new Nodo("parc", d, dright, dleft));
+                                                                                padre.AddHijo(new Nodo("lla", e, eright, eleft));
+                                                                                padre.AddHijo(f);
+                                                                                padre.AddHijo(new Nodo("llc", g, gright, gleft));
+                                                                                RESULT = padre;
+                                                                            :}
+      |  Do:a lla:b INSTRUCCIONES:c llc:d While:e para:f COMPARACIONES:g parc:h pyc:i {:
+                                                                                            Nodo padre = new Nodo("WHILE","",0,0);
+                                                                                            padre.AddHijo(new Nodo("do", a, aright, aleft));
+                                                                                            padre.AddHijo(new Nodo("lla", b, bright, bleft));
+                                                                                            padre.AddHijo(c);
+                                                                                            padre.AddHijo(new Nodo("llc", d, dright, dleft));
+                                                                                            padre.AddHijo(new Nodo("while", e, eright, eleft));
+                                                                                            padre.AddHijo(new Nodo("para", f, fright, fleft));
+                                                                                            padre.AddHijo(g);
+                                                                                            padre.AddHijo(new Nodo("parc", h, hright, hleft));
+                                                                                            padre.AddHijo(new Nodo("pyc", i, iright, ileft));
+                                                                                            RESULT = padre;
+                                                                                       :}
       ;
 
 
-SWITCH::= Switch para identificador parc lla CASOS llc {::}
+SWITCH::= Switch:a para:b identificador:c parc:d lla:e CASOS:f llc:g {:
+                                                                        Nodo padre = new Nodo("SWITCH","",0,0);
+                                                                        padre.AddHijo(new Nodo("switch", a, aright, aleft));
+                                                                        padre.AddHijo(new Nodo("para", b, bright, bleft));
+                                                                        padre.AddHijo(new Nodo("identificador", c, cright, cleft));
+                                                                        padre.AddHijo(new Nodo("parc", d, dright, dleft));
+                                                                        padre.AddHijo(new Nodo("lla", e, eright, eleft));
+                                                                        padre.AddHijo(f);
+                                                                        padre.AddHijo(new Nodo("llc", g, gright, gleft));
+                                                                        RESULT = padre;
+                                                                     :}
        ;
 
 
-CASOS::= CASOS CASE {::}
-      |  CASE
+CASOS::= CASOS:a CASE:b {:
+                            Nodo padre = new Nodo("CASOS","",0,0);
+                            padre.AddHijo(a);
+                            padre.AddHijo(b);
+                            RESULT = padre;
+                        :}
+      |  CASE:a         {:
+                            Nodo padre = new Nodo("CASOS","",0,0);
+                            padre.AddHijo(a);
+                            RESULT = padre;
+                        :}
       ;
 
 
-CASE::= Case numero dop {::}
-    |   Break pyc       {::}
-    |   Default dop     {::}
+CASE::= Case:a numero:b dop:c {:
+                                Nodo padre = new Nodo("CASE","",0,0);
+                                padre.AddHijo(new Nodo("Case",a,aright,aleft));
+                                padre.AddHijo(new Nodo("numero",b,bright,bleft));
+                                padre.AddHijo(new Nodo("dop",c,cright,cleft));
+                                RESULT  = padre;
+                              :}
+    |   Break:a pyc:b       {:
+                                Nodo padre = new Nodo("CASE","",0,0);
+                                padre.AddHijo(new Nodo("Break",a,aright,aleft));
+                                padre.AddHijo(new Nodo("pyc",b,bright,bleft));
+                                RESULT  = padre;
+                              :}
+    |   Default:a dop:b     {:
+                                Nodo padre = new Nodo("CASE","",0,0);
+                                padre.AddHijo(new Nodo("Default",a,aright,aleft));
+                                padre.AddHijo(new Nodo("dop",b,bright,bleft));
+                                RESULT  = padre;
+                              :}
     ;
 
 
-METODO::= identificador para PARAMETROS parc lla INSTRUCCIONES llc pyc   {::}
-        | identificador para PARAMETROS parc lla INSTRUCCIONES llc       {::}
-        | identificador para parc lla INSTRUCCIONES llc                  {::}
-        | identificador para PARAMETROS parc pyc                         {::}
-        | identificador para PARAMETROS parc                             {::}
+METODO::= identificador:a para:b PARAMETROS:c parc:d lla:e INSTRUCCIONES:f llc:g pyc:h   {:
+                                                                                            Nodo padre = new Nodo("METODO","",0,0);
+                                                                                            padre.AddHijo(new Nodo("identificador", a, aright, aleft));
+                                                                                            padre.AddHijo(new Nodo("para", b, bright, bleft));
+                                                                                            padre.AddHijo(c);
+                                                                                            padre.AddHijo(new Nodo("parc", d, dright, dleft));
+                                                                                            padre.AddHijo(new Nodo("lla", e, eright, eleft));
+                                                                                            padre.AddHijo(f);
+                                                                                            padre.AddHijo(new Nodo("llc", g, gright, gleft));
+                                                                                            padre.AddHijo(new Nodo("pyc", h, hright, hleft));
+                                                                                            RESULT = padre;
+                                                                                        :}
+        | identificador:a para:b PARAMETROS:c parc:d lla:e INSTRUCCIONES:f llc:g    {:
+                                                                                        Nodo padre = new Nodo("METODO","",0,0);
+                                                                                        padre.AddHijo(new Nodo("identificador", a, aright, aleft));
+                                                                                        padre.AddHijo(new Nodo("para", b, bright, bleft));
+                                                                                        padre.AddHijo(c);
+                                                                                        padre.AddHijo(new Nodo("parc", d, dright, dleft));
+                                                                                        padre.AddHijo(new Nodo("lla", e, eright, eleft));
+                                                                                        padre.AddHijo(f);
+                                                                                        padre.AddHijo(new Nodo("llc", g, gright, gleft));
+                                                                                        RESULT = padre;
+                                                                                    :}
+        | identificador:a para:b parc:c lla:d INSTRUCCIONES:e llc:f             {:
+                                                                                    Nodo padre = new Nodo("METODO","",0,0);
+                                                                                    padre.AddHijo(new Nodo("identificador", a, aright, aleft));
+                                                                                    padre.AddHijo(new Nodo("para", b, bright, bleft));
+                                                                                    padre.AddHijo(new Nodo("parc", c, cright, cleft));
+                                                                                    padre.AddHijo(new Nodo("lla", d, dright, dleft));
+                                                                                    padre.AddHijo(e);
+                                                                                    padre.AddHijo(new Nodo("llc", f, fright, fleft));
+                                                                                    RESULT = padre;
+                                                                                :}
+        | identificador:a para:b PARAMETROS:c parc:d pyc:e                  {:
+                                                                                Nodo padre = new Nodo("METODO","",0,0);
+                                                                                padre.AddHijo(new Nodo("identificador", a, aright, aleft));
+                                                                                padre.AddHijo(new Nodo("para", b, bright, bleft));
+                                                                                padre.AddHijo(c);
+                                                                                padre.AddHijo(new Nodo("parc", d, dright, dleft));
+                                                                                padre.AddHijo(new Nodo("pyc", e, eright, eleft));
+                                                                                RESULT = padre;
+                                                                            :}
+        | identificador:a para:b PARAMETROS:c parc:d                    {:
+                                                                            Nodo padre = new Nodo("METODO","",0,0);
+                                                                            padre.AddHijo(new Nodo("identificador", a, aright, aleft));
+                                                                            padre.AddHijo(new Nodo("para", b, bright, bleft));
+                                                                            padre.AddHijo(c);
+                                                                            padre.AddHijo(new Nodo("parc", d, dright, dleft));
+                                                                            RESULT = padre;
+                                                                        :}
         ;
 
 
-PARAMETROS::= PARAMETROS PAR     {::}
-           |  PAR                 {::}
+PARAMETROS::= PARAMETROS:a PAR:b    {:
+                                        Nodo padre = new Nodo("PARAMETROS", "", 0, 0);
+                                        padre.AddHijo(a);
+                                        padre.AddHijo(b);
+                                        RESULT = padre;
+                                    :}
+           |  PAR:a                 {:
+                                        Nodo padre = new Nodo("PARAMETROS", "", 0, 0);
+                                        padre.AddHijo(a);
+                                        RESULT = padre;                                     
+                                    :}
            ;
 
 
-PAR::= identificador {::}
-    |  coma          {::}
-    |  Op_ari        {::}
-    |  E             {::}
+PAR::= identificador:a {:
+                            Nodo padre =  new Nodo("PAR","",0,0);
+                            padre.AddHijo(new Nodo("identificador", a, aright, aleft));
+                            RESULT = padre;
+                       :}
+    |  coma:a          {:
+                            Nodo padre =  new Nodo("PAR","",0,0);
+                            padre.AddHijo(new Nodo("coma", a, aright, aleft));
+                            RESULT = padre;
+                        :}
+    |  Op_ari:a        {:
+                            Nodo padre =  new Nodo("PAR","",0,0);
+                            padre.AddHijo(new Nodo("Op_ari", a, aright, aleft));
+                            RESULT = padre;
+                        :}
+    |  E:a             {:
+                            Nodo padre =  new Nodo("PAR","",0,0);
+                            padre.AddHijo(a);
+                            RESULT = padre;
+                        :}
     ;
 
 
-CONSOLE::= Console punto Log para CONCATENACION parc pyc {::}
-        |  Console punto Log para CONCATENACION parc     {::}
+CONSOLE::= Console:a punto:b Log:c para:d CONCATENACION:e parc:f pyc:g {:   Nodo padre = new Nodo("CONSOLE","",0,0);
+                                                                            padre.AddHijo(new Nodo("console", a, aright, aleft));
+                                                                            padre.AddHijo(new Nodo("punto", b, bright, bleft));
+                                                                            padre.AddHijo(new Nodo("log", c, cright, cleft));
+                                                                            padre.AddHijo(new Nodo("para", d, dright, dleft));
+                                                                            padre.AddHijo(e);
+                                                                            padre.AddHijo(new Nodo("parc", f, fright, fleft));
+                                                                            padre.AddHijo(new Nodo("pyc", g, gright, gleft));
+                                                                            RESULT = padre;
+                                                                        :}
+        |  Console:a punto:b Log:c para:d CONCATENACION:e parc:f       {:     
+                                                                            Nodo padre = new Nodo("CONSOLE","",0,0);
+                                                                            padre.AddHijo(new Nodo("console", a, aright, aleft));
+                                                                            padre.AddHijo(new Nodo("punto", b, bright, bleft));
+                                                                            padre.AddHijo(new Nodo("log", c, cright, cleft));
+                                                                            padre.AddHijo(new Nodo("para", d, dright, dleft));
+                                                                            padre.AddHijo(e);
+                                                                            padre.AddHijo(new Nodo("parc", f, fright, fleft));
+                                                                            RESULT = padre;
+                                                                        :}
         ;
 
 
-CONCATENACION::= CONCATENACION CON {::}
-             |   CON               {::}
+CONCATENACION::= CONCATENACION:a CON:b {:
+                                            Nodo padre = new Nodo("CONCATENACION","",0,0);
+                                            padre.AddHijo(a);
+                                            padre.AddHijo(b);
+                                            RESULT = padre;
+                                        :}
+             |   CON:a                 {:
+                                            Nodo padre = new Nodo("CONCATENACION","",0,0);
+                                            padre.AddHijo(a);
+                                            RESULT = padre;
+                                       :}
              ;
 
 
-CON::= identificador {::}
-    |  Op_ari        {::}
-    |  E             {::}
+CON::= identificador:a {:
+                            Nodo padre =  new Nodo("CON","",0,0);
+                            padre.AddHijo(new Nodo("identificador", a, aright, aleft));
+                            RESULT = padre;
+                        :}
+    |  Op_ari:a        {:
+                            Nodo padre =  new Nodo("CON","",0,0);
+                            padre.AddHijo(new Nodo("Op_ari", a, aright, aleft));
+                            RESULT = padre;
+                        :}
+    |  E:a             {:
+                            Nodo padre =  new Nodo("CON","",0,0);
+                            padre.AddHijo(a);
+                            RESULT = padre;
+                        :}
     ;
 
 
-E::= numero     {::}
-   | cadena     {::}
-   | caracter   {::}
+E::= numero:a   {:
+                    Nodo padre =  new Nodo("E","",0,0);
+                    padre.AddHijo(new Nodo("numero", a, aright, aleft));
+                    RESULT = padre;
+                :}
+   | cadena:a   {:
+                    Nodo padre =  new Nodo("E","",0,0);
+                    padre.AddHijo(new Nodo("cadena", a, aright, aleft));
+                    RESULT = padre;
+                :}
+   | caracter:a {:
+                    Nodo padre =  new Nodo("E","",0,0);
+                    padre.AddHijo(new Nodo("caracter", a, aright, aleft));
+                    RESULT = padre;
+                :}
    ;
 
 
-DECLARACION::=  variable I igual I Op_ari I pyc     {::}
-            |   variable I igual I Op_ari I         {::}
-            |   variable I igual I pyc              {::}
-            |   I igual I Op_ari I pyc              {::}
-            |   variable I igual I                  {::}
-            |   I igual I Op_ari I                  {::}
-            |   variable I pyc                      {::}
-            |   I igual I pyc                       {::}
-            |   variable I                          {::}
-            |   I igual I                           {::}
+DECLARACION::=  variable:a I:b igual:c I:d Op_ari:e I:f pyc:g   {:
+                                                                    Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                    padre.AddHijo(new Nodo("variable", a, aright, aleft));
+                                                                    padre.AddHijo(b);
+                                                                    padre.AddHijo(new Nodo("igual", c, cright, cleft));
+                                                                    padre.AddHijo(d);
+                                                                    padre.AddHijo(new Nodo("Op_ari", e, eright, eleft));
+                                                                    padre.AddHijo(f);
+                                                                    padre.AddHijo(new Nodo("pyc", g, gright, gleft));
+                                                                    RESULT = padre;
+                                                                :}
+            |   variable:a I:b igual:c I:d Op_ari:e I:f         {:
+                                                                    Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                    padre.AddHijo(new Nodo("variable", a, aright, aleft));
+                                                                    padre.AddHijo(b);
+                                                                    padre.AddHijo(new Nodo("igual", c, cright, cleft));
+                                                                    padre.AddHijo(d);
+                                                                    padre.AddHijo(new Nodo("Op_ari", e, eright, eleft));
+                                                                    padre.AddHijo(f);
+                                                                    RESULT = padre;
+                                                                :}
+            |   variable:a I:b igual:c I:d pyc:e                {:
+                                                                    Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                    padre.AddHijo(new Nodo("variable", a, aright, aleft));
+                                                                    padre.AddHijo(b);
+                                                                    padre.AddHijo(new Nodo("igual", c, cright, cleft));
+                                                                    padre.AddHijo(d);
+                                                                    padre.AddHijo(new Nodo("pyc", e, eright, eleft));
+                                                                    RESULT = padre;
+                                                                :}
+            |   I:a igual:b I:c Op_ari:d I:e pyc:f              {:
+                                                                    Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                    padre.AddHijo(a);
+                                                                    padre.AddHijo(new Nodo("igual", b, bright, bleft));
+                                                                    padre.AddHijo(c);
+                                                                    padre.AddHijo(new Nodo("Op_ari", d, dright, dleft));
+                                                                    padre.AddHijo(e);
+                                                                    padre.AddHijo(new Nodo("pyc", f, fright, fleft));
+                                                                    RESULT = padre;
+                                                                :}
+            |   variable:a I:b igual:c I:d                      {:
+                                                                    Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                    padre.AddHijo(new Nodo("variable", a, aright, aleft));
+                                                                    padre.AddHijo(b);
+                                                                    padre.AddHijo(new Nodo("igual", c, cright, cleft));
+                                                                    padre.AddHijo(d);
+                                                                    RESULT = padre;
+                                                                :}
+            |   I:a igual:b I:c Op_ari:d I:e                    {:
+                                                                    Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                    padre.AddHijo(a);
+                                                                    padre.AddHijo(new Nodo("igual", b, bright, bleft));
+                                                                    padre.AddHijo(c);
+                                                                    padre.AddHijo(new Nodo("Op_ari", d, dright, dleft));
+                                                                    padre.AddHijo(e);
+                                                                    RESULT = padre;
+                                                                :}
+            |   variable:a I:b pyc:c                            {:
+                                                                    Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                    padre.AddHijo(new Nodo("variable", a, aright, aleft));
+                                                                    padre.AddHijo(b);
+                                                                    padre.AddHijo(new Nodo("igual", c, cright, cleft));
+                                                                    RESULT = padre;
+                                                                :}
+            |   I:a igual:b I:c pyc:d                           {:
+                                                                    Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                    padre.AddHijo(a);
+                                                                    padre.AddHijo(new Nodo("igual", b, bright, bleft));
+                                                                    padre.AddHijo(c);
+                                                                    padre.AddHijo(new Nodo("pyc", d, dright, dleft));
+                                                                    RESULT = padre;
+                                                                :}
+            |   variable:a I:b                                  {:
+                                                                    Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                    padre.AddHijo(new Nodo("variable", a, aright, aleft));
+                                                                    padre.AddHijo(b);
+                                                                    RESULT = padre;
+                                                                :}
+            |   I:a igual:b I:c                                 {:
+                                                                    Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                    padre.AddHijo(a);
+                                                                    padre.AddHijo(new Nodo("igual", b, bright, bleft));
+                                                                    padre.AddHijo(c);
+                                                                    RESULT = padre;
+                                                                :}
+            |   var:a identificador:b igual:c Require:d para:e cadena:f parc:g pyc:h  {:
+                                                                                            Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                                            padre.AddHijo(new Nodo("var", a, aright, aleft));
+                                                                                            padre.AddHijo(new Nodo("identificador", b, bright, bleft));
+                                                                                            padre.AddHijo(new Nodo("igual", c, cright, cleft));
+                                                                                            padre.AddHijo(new Nodo("require", d, dright, dleft));
+                                                                                            padre.AddHijo(new Nodo("para", e, eright, eleft));
+                                                                                            padre.AddHijo(new Nodo("cadena", f, fright, fleft));
+                                                                                            padre.AddHijo(new Nodo("parc", g, gright, gleft));
+                                                                                            padre.AddHijo(new Nodo("pyc", h, hright, hleft));
+                                                                                            RESULT = padre;
+                                                                                        :}
+            |   var:a identificador:b igual:c Require:d para:e cadena:f parc:g  {:
+                                                                                            Nodo padre = new Nodo("DECLARACION","",0,0);
+                                                                                            padre.AddHijo(new Nodo("var", a, aright, aleft));
+                                                                                            padre.AddHijo(new Nodo("identificador", b, bright, bleft));
+                                                                                            padre.AddHijo(new Nodo("igual", c, cright, cleft));
+                                                                                            padre.AddHijo(new Nodo("require", d, dright, dleft));
+                                                                                            padre.AddHijo(new Nodo("para", e, eright, eleft));
+                                                                                            padre.AddHijo(new Nodo("cadena", f, fright, fleft));
+                                                                                            padre.AddHijo(new Nodo("parc", g, gright, gleft));
+                                                                                            RESULT = padre;
+                                                                                :}
             ;
 
 
-I::= identificador {::}
-   | numero        {::}
-   | cadena        {::}
+I::= identificador:a {:
+                        Nodo padre =  new Nodo("I","",0,0);
+                        padre.AddHijo(new Nodo("identificador", a, aright, aleft));
+                        RESULT = padre;
+                     :}
+   | numero:a        {:
+                        Nodo padre =  new Nodo("I","",0,0);
+                        padre.AddHijo(new Nodo("numero", a, aright, aleft));
+                        RESULT = padre;
+                     :}
+   | cadena:a        {:
+                        Nodo padre =  new Nodo("I","",0,0);
+                        padre.AddHijo(new Nodo("cadena", a, aright, aleft));
+                        RESULT = padre;
+                     :}
    ;
