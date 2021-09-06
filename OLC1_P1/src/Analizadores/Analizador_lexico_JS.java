@@ -8,6 +8,8 @@
 package Analizadores;
 import java_cup.runtime.*;
 import javax.swing.JOptionPane;
+import olc1_p1.Ventana;
+import olc1_p1.Errores;
 
 /*----------------------------------------------------------
   ------------  2da Area: Opciones y Declaraciones ---------
@@ -685,20 +687,22 @@ public class Analizador_lexico_JS implements java_cup.runtime.Scanner {
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
             zzDoEOF();
-          { return new java_cup.runtime.Symbol(Simbolos_JS.EOF); }
+          { return new java_cup.runtime.Symbol(Simbolos_JS2.EOF); }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
             { System.out.println("Error Lexico " + yytext() + "Linea: " + yyline + "Columna: " + yycolumn);
+             Errores nuevo_error = new Errores("Error Lexico", yytext(), yyline, yycolumn);
+             Ventana.lista_errores.add(nuevo_error);
             }
           case 34: break;
           case 2: 
-            { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos_JS.numero, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" numero"); return new Symbol(Simbolos_JS2.numero, yycolumn, yyline, yytext());
             }
           case 35: break;
           case 3: 
-            { System.out.println("Reconocio "+yytext()+" punto"); return new Symbol(Simbolos_JS.punto, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" punto"); return new Symbol(Simbolos_JS2.punto, yycolumn, yyline, yytext());
             }
           case 36: break;
           case 4: 
@@ -706,119 +710,120 @@ public class Analizador_lexico_JS implements java_cup.runtime.Scanner {
             }
           case 37: break;
           case 5: 
-            { System.out.println("Reconocio "+yytext()+" identificador"); return new Symbol(Simbolos_JS.identificador, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" identificador"); return new Symbol(Simbolos_JS2.identificador, yycolumn, yyline, yytext());
             }
           case 38: break;
           case 6: 
-            { System.out.println("Reconocio "+yytext()+" Op_ari"); return new Symbol(Simbolos_JS.Op_ari, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Op_ari"); return new Symbol(Simbolos_JS2.Op_ari, yycolumn, yyline, yytext());
             }
           case 39: break;
           case 7: 
-            { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(Simbolos_JS.igual, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" igual"); return new Symbol(Simbolos_JS2.igual, yycolumn, yyline, yytext());
             }
           case 40: break;
           case 8: 
-            { System.out.println("Reconocio "+yytext()+" Op_log"); return new Symbol(Simbolos_JS.Op_log, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Op_log"); return new Symbol(Simbolos_JS2.Op_log, yycolumn, yyline, yytext());
             }
           case 41: break;
           case 9: 
-            { System.out.println("Reconocio "+yytext()+" Op_rel"); return new Symbol(Simbolos_JS.Op_rel, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Op_rel"); return new Symbol(Simbolos_JS2.Op_rel, yycolumn, yyline, yytext());
             }
           case 42: break;
           case 10: 
-            { System.out.println("Reconocio "+yytext()+" dop"); return new Symbol(Simbolos_JS.dop, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" dop"); return new Symbol(Simbolos_JS2.dop, yycolumn, yyline, yytext());
             }
           case 43: break;
           case 11: 
-            { System.out.println("Reconocio "+yytext()+" pyc"); return new Symbol(Simbolos_JS.pyc, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" pyc"); return new Symbol(Simbolos_JS2.pyc, yycolumn, yyline, yytext());
             }
           case 44: break;
           case 12: 
-            { System.out.println("Reconocio "+yytext()+" para"); return new Symbol(Simbolos_JS.para, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" para"); return new Symbol(Simbolos_JS2.para, yycolumn, yyline, yytext());
             }
           case 45: break;
           case 13: 
-            { System.out.println("Reconocio "+yytext()+" parc"); return new Symbol(Simbolos_JS.parc, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" parc"); return new Symbol(Simbolos_JS2.parc, yycolumn, yyline, yytext());
             }
           case 46: break;
           case 14: 
-            { System.out.println("Reconocio "+yytext()+" lla"); return new Symbol(Simbolos_JS.lla, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" lla"); return new Symbol(Simbolos_JS2.lla, yycolumn, yyline, yytext());
             }
           case 47: break;
           case 15: 
-            { System.out.println("Reconocio "+yytext()+" llc"); return new Symbol(Simbolos_JS.llc, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" llc"); return new Symbol(Simbolos_JS2.llc, yycolumn, yyline, yytext());
             }
           case 48: break;
           case 16: 
-            { System.out.println("Reconocio "+yytext()+" coma"); return new Symbol(Simbolos_JS.coma, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" coma"); return new Symbol(Simbolos_JS2.coma, yycolumn, yyline, yytext());
             }
           case 49: break;
           case 17: 
-            { System.out.println("Reconocio "+yytext()+" If"); return new Symbol(Simbolos_JS.If, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" If"); return new Symbol(Simbolos_JS2.If, yycolumn, yyline, yytext());
             }
           case 50: break;
           case 18: 
-            { System.out.println("Reconocio "+yytext()+" Do"); return new Symbol(Simbolos_JS.Do, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Do"); return new Symbol(Simbolos_JS2.Do, yycolumn, yyline, yytext());
             }
           case 51: break;
           case 19: 
-            { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos_JS.cadena, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" cadena"); return new Symbol(Simbolos_JS2.cadena, yycolumn, yyline, yytext());
             }
           case 52: break;
           case 20: 
-            { System.out.println("Reconocio "+yytext()+" caracter"); return new Symbol(Simbolos_JS.caracter, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" caracter"); return new Symbol(Simbolos_JS2.caracter, yycolumn, yyline, yytext());
             }
           case 53: break;
           case 21: 
             { System.out.println("Comentario: "+yytext());
+                        Ventana.lista_comentarios.add(yytext());
             }
           case 54: break;
           case 22: 
-            { System.out.println("Reconocio "+yytext()+" variable"); return new Symbol(Simbolos_JS.variable, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" variable"); return new Symbol(Simbolos_JS2.variable, yycolumn, yyline, yytext());
             }
           case 55: break;
           case 23: 
-            { System.out.println("Reconocio "+yytext()+" Log"); return new Symbol(Simbolos_JS.Log, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Log"); return new Symbol(Simbolos_JS2.Log, yycolumn, yyline, yytext());
             }
           case 56: break;
           case 24: 
-            { System.out.println("Reconocio "+yytext()+" For"); return new Symbol(Simbolos_JS.For, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" For"); return new Symbol(Simbolos_JS2.For, yycolumn, yyline, yytext());
             }
           case 57: break;
           case 25: 
-            { System.out.println("Reconocio "+yytext()+" Else"); return new Symbol(Simbolos_JS.Else, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Else"); return new Symbol(Simbolos_JS2.Else, yycolumn, yyline, yytext());
             }
           case 58: break;
           case 26: 
-            { System.out.println("Reconocio "+yytext()+" Case"); return new Symbol(Simbolos_JS.Case, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Case"); return new Symbol(Simbolos_JS2.Case, yycolumn, yyline, yytext());
             }
           case 59: break;
           case 27: 
-            { System.out.println("Reconocio "+yytext()+" ClassJS"); return new Symbol(Simbolos_JS.ClassJS, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" ClassJS"); return new Symbol(Simbolos_JS2.ClassJS, yycolumn, yyline, yytext());
             }
           case 60: break;
           case 28: 
-            { System.out.println("Reconocio "+yytext()+" While"); return new Symbol(Simbolos_JS.While, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" While"); return new Symbol(Simbolos_JS2.While, yycolumn, yyline, yytext());
             }
           case 61: break;
           case 29: 
-            { System.out.println("Reconocio "+yytext()+" Break"); return new Symbol(Simbolos_JS.Break, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Break"); return new Symbol(Simbolos_JS2.Break, yycolumn, yyline, yytext());
             }
           case 62: break;
           case 30: 
-            { System.out.println("Reconocio "+yytext()+" Switch"); return new Symbol(Simbolos_JS.Switch, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Switch"); return new Symbol(Simbolos_JS2.Switch, yycolumn, yyline, yytext());
             }
           case 63: break;
           case 31: 
-            { System.out.println("Reconocio "+yytext()+" Require"); return new Symbol(Simbolos_JS.Require, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Require"); return new Symbol(Simbolos_JS2.Require, yycolumn, yyline, yytext());
             }
           case 64: break;
           case 32: 
-            { System.out.println("Reconocio "+yytext()+" Console"); return new Symbol(Simbolos_JS.Console, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Console"); return new Symbol(Simbolos_JS2.Console, yycolumn, yyline, yytext());
             }
           case 65: break;
           case 33: 
-            { System.out.println("Reconocio "+yytext()+" Default"); return new Symbol(Simbolos_JS.Default, yycolumn, yyline, yytext());
+            { System.out.println("Reconocio "+yytext()+" Default"); return new Symbol(Simbolos_JS2.Default, yycolumn, yyline, yytext());
             }
           case 66: break;
           default:

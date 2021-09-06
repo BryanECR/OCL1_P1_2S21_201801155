@@ -7,9 +7,9 @@ package Generadores;
 
 /**
  *
- * @author sandr
+ * @author Userlen
  */
-public class GSintacticoJS {
+public class GSJS {
     public static void main(String[] args)
     {
         String opciones[] = new String[7]; 
@@ -24,16 +24,16 @@ public class GSintacticoJS {
         opciones[2] = "-symbols"; 
         
         //Le damos el nombre que queremos que tenga
-        opciones[3] = "Simbolos_JS";
+        opciones[3] = "Simbolos_JS2";
         
         //Seleccionamos la opcion de clase parser
         opciones[4] = "-parser";         
         
         //Le damos nombre a esa clase del paso anterior
-        opciones[5] = "SintacticoJS"; 
+        opciones[5] = "SintacticoJS2"; 
         
         //Le decimos donde se encuentra el archivo .cup 
-        opciones[6] = "src/Analizadores/AnaSintacticoJS.cup"; 
+        opciones[6] = "src/Analizadores/ASJS.cup"; 
         try 
         {
             java_cup.Main.main(opciones);

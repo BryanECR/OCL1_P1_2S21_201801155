@@ -10,7 +10,7 @@ package olc1_p1;
  * @author Userlen
  */
 public class Errores {
-       
+        
     public String tipo;
     public String valor;
     public String archivo;
@@ -47,5 +47,6 @@ public class Errores {
         this.fila = fila;
         this.columna = columna;
     }
-   
+  
+    
 }

@@ -2,13 +2,22 @@
 //-------> importaciones, paquetes
 package Analizadores;
 import java_cup.runtime.Symbol;
+import olc1_p1.Comparar;
+import java.util.LinkedList;
+import Graficas.Caracteristica;
+import Graficas.GBarras;
+import Graficas.GPie;
+import Graficas.Valor;
+import Graficas.Variables;
 
 //------> Codigo para el parser,variables, metodos
 parser code{:
-
         //Podemos crear variables, listas, etc;
         // deben de ser staticas si se quieren usar fuera
-        
+
+
+        public String resultado = "";
+        public static LinkedList<Object> instrucciones;      
         
 
         public void syntax_error(Symbol s)
@@ -30,12 +39,26 @@ action code
 /*--------------- 2da Area: Declaraciones -----------------------*/
 
 //------> declaracion de terminales 
-terminal String pyc, dop, lla, llc, coma, para, parc, igual;
-terminal String string, titulo, titulox, tituloy, archivo, compare, mein, globales, graficas, doubleFCA;
-terminal String decimal, cadena, identificador;
+terminal String pyc, dop, lla, llc, coma, para, parc, igual, cora, corc,dol;
+terminal String string, titulo, titulox, tituloy, archivo, compare, mein, globales, doubleFCA, valores, ejex, barras, pie, lineas, pgen, pesp;
+terminal String decimal, cadena, identificador, digito;
 
 //------> declaracion de no terminales
-non terminal INICIO, INSTRUCCION, INSTRUCCIONES, INST, DECLARACION_GLOB, DECLARACION_GRAPH, COMPARE;
+non terminal INICIO;
+non terminal LinkedList<Object> INST;
+non terminal Object INSTRUCCIONES;
+non terminal Comparar COMPARE;
+
+non terminal LinkedList<Variables> DECLARACION_GLOB;
+non terminal LinkedList<Variables> VARIABLES;
+
+non terminal GBarras GRAFICABARRAS;
+non terminal GPie GRAFICAPIE;
+non terminal LinkedList<Caracteristica> DEC;
+non terminal Caracteristica DECLARACIONES;
+non terminal LinkedList<Valor> VALORES;
+non terminal Valor E;
+
 
 //------> precedencia
 
@@ -44,36 +67,62 @@ start with INICIO;
 
 /*--------------- 3ra Area: Reglas Semanticas -----------------------*/
 
-INICIO::= mein lla INSTRUCCIONES llc  {: :} 
-       ;
+INICIO::= mein lla INST:a llc {: instrucciones = a; :}
+	;
+
+INST::= INST:a INSTRUCCIONES:b    {: RESULT = a; RESULT.add(b); :}
+	|      INSTRUCCIONES:a    {: RESULT = new LinkedList<>(); RESULT.add(a);  :}
+	;
+
+INSTRUCCIONES::= DECLARACION_GLOB:a  {: RESULT = a; :}
+	|	 GRAFICABARRAS:a     {: RESULT = a; :}
+	|	 GRAFICAPIE:a        {: RESULT = a; :}
+	|	 COMPARE:a	     {: RESULT = a; :}
+	;
 
 
-INSTRUCCIONES::= INSTRUCCIONES DECLARACION_GLOB     {::}
-             |   DECLARACION_GLOB                   {::}
-             |   INSTRUCCIONES DECLARACION_GRAPH    {::}
-             |   DECLARACION_GRAPH                  {::}
-             |   INSTRUCCIONES COMPARE              {::}
-             |   COMPARE                            {::}
-             ;
+DECLARACION_GLOB::= globales lla VARIABLES:a llc {: RESULT = a; :}
+                ;
 
-INST::= INST INSTRUCCION {::}
-    | INSTRUCCION        {::}
+VARIABLES::= VARIABLES:a string identificador:b igual E:c pyc      {: RESULT = a; RESULT.add(new Variables(1, b, c)); :}
+          |  VARIABLES:a doubleFCA identificador:b igual E:c pyc   {: RESULT = a; RESULT.add(new Variables(2, b, c)); :}
+          |  string identificador:a igual E:b pyc                  {: RESULT = new LinkedList<>(); RESULT.add(new Variables(1, a, b)); :}
+          |  doubleFCA identificador:a igual E:b pyc               {: RESULT = new LinkedList<>(); RESULT.add(new Variables(2, a, b)); :}
+          ;
+
+
+COMPARE::= compare para cadena:a coma cadena:b parc pyc      {:    RESULT = new Comparar(a.substring(1,a.length()-1),b.substring(1,b.length()-1));   :}
+	;
+
+
+GRAFICABARRAS::=  barras lla DEC:a llc {: RESULT = new GBarras(a); :}
+              ;
+
+GRAFICAPIE::=  pie lla DEC:a llc {: RESULT = new GPie(a); :}
+              ;
+
+DEC::= DEC:a DECLARACIONES:b 	 {: RESULT = a; RESULT.add(b); :}
+    |  DECLARACIONES:a           {: RESULT = new LinkedList<>(); RESULT.add(a); :}
     ;
 
-INSTRUCCION::=  string identificador igual cadena pyc         {::}
-            |   doubleFCA identificador igual decimal pyc     {::}
-            |   titulo dop identificador pyc                  {::}
-            |   titulox dop cadena pyc                        {::}
-            |   tituloy dop cadena pyc                        {::}
-            |   archivo dop cadena pyc                        {::}
+DECLARACIONES::=  titulo dop E:a pyc                      {: RESULT = new Caracteristica(0,a); :}
+            |     ejex dop cora VALORES:a corc pyc        {: RESULT = new Caracteristica(1,a); :}
+            |     valores dop cora VALORES:a corc pyc     {: RESULT = new Caracteristica(2,a); :}
+            |     titulox dop E:a pyc                     {: RESULT = new Caracteristica(3,a); :}
+            |     tituloy dop E:a pyc                     {: RESULT = new Caracteristica(4,a); :}
+            |     archivo dop E pyc                     {::}
             ;
 
 
-DECLARACION_GLOB::= globales lla INST llc {::}
-                ;
+VALORES::= VALORES:a coma E:b   {: RESULT = a; RESULT.add(b); :}
+        |  E:a                  {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+        ;
 
-DECLARACION_GRAPH::=  graficas lla INST llc {::}
-                ;
-
-COMPARE::= compare para cadena coma cadena parc pyc      {::}
-         ;
+E::=  decimal:a        {: RESULT = new Valor(1, new Double(a));  :}
+  |   digito:a         {: RESULT = new Valor(2, new Integer(a)); :} 
+  |   identificador:a  {: RESULT = new Valor(3, a); :}
+  |   cadena:a         {: RESULT = new Valor(4, a.substring(1,a.length()-1)); :}
+  |   dol lla pesp:a coma cadena:b coma cadena:c coma cadena:d llc  {: :}  
+  |   pgen:a           {:  :}
+  |   pesp:a           {:  :}
+  ;

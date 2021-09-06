@@ -25,5 +25,5 @@ public class Comparar {
     
     public String getRuta2(){
         return this.ruta2;
-    } 
+    }
 }

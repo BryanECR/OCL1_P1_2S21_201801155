@@ -6,7 +6,7 @@
 package Analizadores;
 
 /** CUP generated class containing symbol constants. */
-public class Simbolos_JS {
+public class Simbolos_JS2 {
   /* terminals */
   public static final int Op_ari = 4;
   public static final int Else = 16;

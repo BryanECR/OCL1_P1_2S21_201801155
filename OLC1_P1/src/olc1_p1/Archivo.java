@@ -23,5 +23,22 @@ public class Archivo {
         this.variables = variables;
         this.comentarios = comentarios;
         this.lista_errores = lista_errores;
-    } 
+    }
+    
+    public String getNombreArchivo(){
+        return this.nombre_archivo;
+    }
+    
+    public LinkedList<String> getListaVariables(){
+        return this.variables;
+    }
+    
+    public LinkedList<String> getListaComentarios(){
+        return this.comentarios;
+    }
+    
+    public LinkedList<Errores> getListaErrores(){
+        return this.lista_errores;
+    }
+    
 }

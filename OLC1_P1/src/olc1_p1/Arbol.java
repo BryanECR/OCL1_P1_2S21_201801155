@@ -69,8 +69,8 @@ public class Arbol {
               La imagen y el .dot se guardan dentro de la carpeta del proyecto
             */
             
-            GenerarJpg();
-            //reportar();
+            //GenerarJpg();
+            reportar();
             
         } catch (Exception e) {
             System.out.println("error en generar dot");

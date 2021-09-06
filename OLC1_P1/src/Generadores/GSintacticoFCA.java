@@ -7,7 +7,7 @@ package Generadores;
 
 /**
  *
- * @author sandr
+ * @author Bryan
  */
 public class GSintacticoFCA {
     public static void main(String[] args)
