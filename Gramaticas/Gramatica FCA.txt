@@ -1,0 +1,31 @@
+INICIO -> "ReporteEstadistico" "{" INST "}"  ;
+
+INST -> INST INSTRUCCIONES
+     |	INSTRUCCIONES
+
+GLOBALES -> "DefinirGlobales" "{" VARIABLES "}" 
+
+VARIABLES -> VARIABLES "String" identificador "=" E ";"
+	   | "Double" identificador "=" E ";"
+
+GRAFICABARRAS -> "GraficaBarras" "{" DECLARACIONES "}" 
+
+GRAFICAPIE -> "GraficaPie" "{" DECLARACIONES "}" 
+
+DECLARACIONES -> "Titulo" ":" E ";"
+	      |	 "EjeX" ":" "[" VALORES "]" ";"
+	      |	 "Valores" ":" "[" VALORES "]" ";"
+	      |  "TituloX" ":" E ";"	 
+	      |  "TituloY" ":" E ";"
+	      |  "Archivo" ":" E ";"
+
+VALORES -> VALORES "," E
+	|  E
+
+E -> 	decimal
+	digito
+	identificador
+	cadena
+	"$" "{" "PuntajeEspecifico" "," cadena "," cadena "}"
+	PuntajeEspecifico
+	PuntajeGeneral

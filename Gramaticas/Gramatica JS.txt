@@ -1,0 +1,91 @@
+INICIO -> CLASS
+
+CLASS -> class identificador "{" INST "}"
+
+INST -> INST INSTRUCCIONES
+      |	INSTRUCCIONES
+
+INSTRUCCIONES -> DECLARACIONES
+	       | IF
+               | FOR
+               | WHILE 
+               | SWITCH
+               | METODO
+               | CONSOLE
+               | ASIGNACION
+
+FOR -> "for" "(" DECLARACION COMAPRACION ";" CONCATENACION ")" "{" INST "}"
+     | "for" "(" ADIGNACION COMPARACIONES ";" ASIGNACIONES ")" "{" INST "}"
+
+IF -> "if" "(" COMPARACIONES ")" "{" INST "}"
+    |  "if" "else" "(" ")" "{" INST "}"
+    |  "else" "{" INST "}"
+
+COMPARACIONES -> COMPARACIONES COMP
+	      |  COMP
+
+COMP -> identificador
+     |  ( "==" | "!=" | "<" | ">" | "<=" | ">=" )
+     |  E
+     |  ( "&&" | "||" | "!" )
+
+WHILE -> "while" "(" COMPARACIONES ")" "{" "}"
+      |  "do" "{" INST "}" "while" "(" COMPARACIONES ")" ";"
+
+SWITCH -> "switch" "(" identificador ")" "{" CASOS "}"
+
+CASOS -> CASOS CASE
+       | CASE
+
+CASE -> "case" numero ":"
+     |  "break" ";"
+     |  "Default" ":"
+
+METODO -> identificador "(" PARAMETROS ")" "{" inst "}
+       |  identificador "(" PARAMETROS ")" "{" INST "}"
+       |  identificador "(" ")" "{" INST "}"
+       |  identificador "(" PARAMTROS ")" ";"
+       |  identificador "(" PARAMETROS ")"
+
+PARAMETROS -> PARAMETROS PAR
+           |  PAR
+
+PAR -> identificador
+    |  ( "+" | "-" | "*" | "/" | "**" | "%" )
+    |  E
+    |  ","
+
+CONSOLE -> "console" "." "log" "(" CONCATENACION ")" ";"
+       |   "console" "." "log" "(" CONCATENACION ")" ";"
+
+CONCATENACION -> CONCATENACION CON
+              |  CON 
+
+CON ->  identificador
+     |  ( "+" | "-" | "*" | "/" | "**" | "%" )
+     |  E
+     |  "="
+
+E -> numero
+   | cadena
+   | caracter
+
+DECLARACION ->  ( "var" | "let" |"const" ) identificador "=" "require" "(" ")" ";"
+             |  ( "var" | "let" |"const" ) identificador "=" "require" "(" ")"
+  	     |  ( "var" | "let" |"const" ) identificador "=" I ( "+" | "-" | "*" | "/" | "**" | "%" ) I ";"
+             |  ( "var" | "let" |"const" ) identificador "=" I ( "+" | "-" | "*" | "/" | "**" | "%" ) I
+             |  ( "var" | "let" |"const" ) identificador "=" I ";"
+             |  ( "var" | "let" |"const" ) identificador "=" I
+             |  ( "var" | "let" |"const" ) identificador ";"
+             |  ( "var" | "let" |"const" ) identificador
+
+ASIGNACION -> identificador "=" I ( "+" | "-" | "*" | "/" | "**" | "%" ) I ";"
+           |  identificador "=" I ( "+" | "-" | "*" | "/" | "**" | "%" ) I
+           |  identificador "=" I ";" 
+           |  identificador "=" I
+           |  identificador ( "+" | "-" ) ( "+" | "-" ) ";"
+           |  identificador ( "+" | "-" ) ( "+" | "-" )
+
+I -> identificacion
+  |  numero
+  |  cadena
