@@ -32,7 +32,7 @@ digito              = [0-9]+
 decimal             = [0-9]+("."?[0-9]?[0-9]?)
 cadena              = [\"][^\"\n]+[\"]
 identificador       = [A-z]+([A-z]|[0-9]|"_")*
-comentario          = ("#*"+[\s\S]*?"*#")|("#*"+.*"*#")|"##".*?[\r\n][\r\n]*
+comentarios          = ("#*"+[\s\S]*?"*#")|("#*"+.*"*#")|("##".*?[\r\n])*
 
 //------> Estados
 
@@ -85,7 +85,7 @@ comentario          = ("#*"+[\s\S]*?"*#")|("#*"+.*"*#")|"##".*?[\r\n][\r\n]*
 
 
 //------> Espacios
-{comentario}      {System.out.println("Comentario: "+yytext()); }
+{comentarios}      { System.out.println("Comentario: "+yytext()); }
 [ \t\r\n\f]             {/* Espacios en blanco, se ignoran */}
 
 //-------> Errores Lexicos 

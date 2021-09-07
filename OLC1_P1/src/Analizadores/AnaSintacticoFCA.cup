@@ -110,7 +110,7 @@ DECLARACIONES::=  titulo dop E:a pyc                      {: RESULT = new Caract
             |     valores dop cora VALORES:a corc pyc     {: RESULT = new Caracteristica(2,a); :}
             |     titulox dop E:a pyc                     {: RESULT = new Caracteristica(3,a); :}
             |     tituloy dop E:a pyc                     {: RESULT = new Caracteristica(4,a); :}
-            |     archivo dop E pyc                     {::}
+            |     archivo dop E pyc                       {::}
             ;
 
 
@@ -123,6 +123,6 @@ E::=  decimal:a        {: RESULT = new Valor(1, new Double(a));  :}
   |   identificador:a  {: RESULT = new Valor(3, a); :}
   |   cadena:a         {: RESULT = new Valor(4, a.substring(1,a.length()-1)); :}
   |   dol lla pesp:a coma cadena:b coma cadena:c coma cadena:d llc  {: :}  
-  |   pgen:a           {:  :}
-  |   pesp:a           {:  :}
+  |   pgen:a           {: RESULT = new Valor(3, a); :}
+  |   pesp:a           {: RESULT = new Valor(3, a); :}
   ;

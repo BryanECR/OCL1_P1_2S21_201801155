@@ -681,7 +681,7 @@ class CUP$SintacticoFCA$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoFCA$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoFCA$stack.peek()).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoFCA$stack.peek()).value;
-		  
+		 RESULT = new Valor(3,a); 
               CUP$SintacticoFCA$result = parser.getSymbolFactory().newSymbol("E",11, ((java_cup.runtime.Symbol)CUP$SintacticoFCA$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoFCA$stack.peek()), RESULT);
             }
           return CUP$SintacticoFCA$result;
@@ -693,7 +693,7 @@ class CUP$SintacticoFCA$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$SintacticoFCA$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$SintacticoFCA$stack.peek()).right;
 		String a = (String)((java_cup.runtime.Symbol) CUP$SintacticoFCA$stack.peek()).value;
-		  
+		 RESULT = new Valor(3,a); 
               CUP$SintacticoFCA$result = parser.getSymbolFactory().newSymbol("E",11, ((java_cup.runtime.Symbol)CUP$SintacticoFCA$stack.peek()), ((java_cup.runtime.Symbol)CUP$SintacticoFCA$stack.peek()), RESULT);
             }
           return CUP$SintacticoFCA$result;

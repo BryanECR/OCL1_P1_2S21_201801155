@@ -362,13 +362,13 @@ public class Ventana extends javax.swing.JFrame {
             instrucciones = sintactico_fca.instrucciones;
             
             //Recorre las instrucciones encontradas en el archivo FCA
+            //--> ejecutamos primero el comando comparar 
             for(Object ins : instrucciones){
                 if(ins instanceof Comparar){
                     Comparar comp = (Comparar)ins;
                     archivos_carpetas(comp.getRuta1(), comp.getRuta2());
                 }
             }
-            
         
         } catch (Exception ex) {
                 Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
