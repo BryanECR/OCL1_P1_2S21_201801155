@@ -21,7 +21,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
- * @author Userlen
+ * @author Bryan Caal
  */
 public class GPie {
     

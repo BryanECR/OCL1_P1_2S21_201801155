@@ -9,7 +9,7 @@ import olc1_p1.Ventana;
 
 /**
  *
- * @author Userlen
+ * @author Bryan Caal
  */
 public class Valor {
 

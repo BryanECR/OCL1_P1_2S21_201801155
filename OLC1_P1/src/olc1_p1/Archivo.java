@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author Userlen
+ * @author Bryan Caal
  */
 public class Archivo {
         

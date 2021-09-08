@@ -7,7 +7,7 @@ package Generadores;
 
 /**
  *
- * @author Userlen
+ * @author Bryan Caal
  */
 public class GSJS {
     public static void main(String[] args)

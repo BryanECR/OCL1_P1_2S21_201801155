@@ -7,7 +7,7 @@ package Generadores;
 import java.io.File;
 /**
  *
- * @author sandr
+ * @author Bryan Caal
  */
 public class GLexicoJS {
     

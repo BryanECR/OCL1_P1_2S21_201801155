@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Userlen
+ * @author Bryan Caal
  */
 public class Nodo {
 

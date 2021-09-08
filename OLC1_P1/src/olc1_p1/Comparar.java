@@ -7,7 +7,7 @@ package olc1_p1;
 
 /**
  *
- * @author Userlen
+ * @author Bryan Caal
  */
 public class Comparar {
     

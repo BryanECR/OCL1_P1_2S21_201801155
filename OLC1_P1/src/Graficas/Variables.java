@@ -7,7 +7,7 @@ package Graficas;
 
 /**
  *
- * @author Userlen
+ * @author Bryan Caal
  */
 public class Variables {
     public int tipo; //1 = string 2= double

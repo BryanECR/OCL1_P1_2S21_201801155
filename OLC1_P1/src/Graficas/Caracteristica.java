@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author Userlen
+ * @author Bryan Caal
  */
 public class Caracteristica {
     public int tipo; //0= titulo, 1= ejex, 2= valores, 3= titulox, 4= tituloy

@@ -7,7 +7,7 @@ package Graficas;
 
 /**
  *
- * @author Userlen
+ * @author Bryan Caal
  */
 public class Puntajes {
     

@@ -21,7 +21,7 @@ import org.jfree.chart.ChartUtilities;
 
 /**
  *
- * @author sandr
+ * @author Bryan Caal
  */
 import org.jfree.chart.JFreeChart; 
 import org.jfree.chart.plot.PlotOrientation; 

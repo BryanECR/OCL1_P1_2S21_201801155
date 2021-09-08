@@ -30,7 +30,6 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -97,7 +96,107 @@ public class Ventana extends javax.swing.JFrame {
         }
     }
 
-    
+        /**
+     * Metodo para generar el reporte de errores
+     */
+    public void ReporteErrores(){
+        
+        LinkedList<Errores> Reporte_errores = new LinkedList<>();
+        
+        for(Archivo archivo : datos_archivos){
+            Reporte_errores.addAll(archivo.lista_errores);
+        }
+        
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+                try {
+                    fichero = new FileWriter("ReporteErrores.html");
+                    pw = new PrintWriter(fichero); 
+                String Html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//ES\">\n\t"
+               + "<HTML>\n\t"
+               + "<HEAD>\n\t"
+               + "<TITLE>REPORTE DE ERRORES</TITLE>\n\t"
+               + "<style>\n\t"
+               + "body {\n\t"
+               + "background:#AAAA;\n\t"
+               +/* el fondo de todo el cuerpo*/ "padding: 20px;\n\t"
+               + /*el espacio entre el borde y su contenido*/ "}\n\t"
+               + "h2 {\n\t"
+               + "color: #5D6D7E;\n\t"
+               + "font-family: Calibri;\n\t"
+               + /*tipo de fuente*/ "}\n\t"
+               + ".articulo {\n\t"
+               + "font-size: 14px;\n\t"
+               + "font-family: Calibri;\n\t"
+               + "background: #7FB3D5;\n\t"
+               + "border: 6px solid #2471A3;\n\t" //borde cuadro arriba
+               + "color: #AAAAAFF;\n\t"
+               + "padding: 13px;\n\t"
+               + "}\n\t"
+               + ".tabla {\n\t"
+               + "font-size: 14px;\n\t"
+               + "font-family: Century Gothic;\n\t"
+               + "background: #AAAAA;\n\t"
+               + "border: 6px solid #5D6D7E;\n\t" //borde cuadro abajo
+               + "color: #000000;\n\t"
+               + "padding: 13px;\n\t"
+               + "}\n\t"
+               + ".fin {\n\t"
+               + "font-size: 14px;\n\t"
+               + "font-family: Eras Light ITC;\n\t"
+               + "background: #7FB3D5;\n\t"
+               + "border: 6px solid #F74316;\n\t"
+               + "color: #000000;\n\t" +//2939B5
+               "padding: 13px;\n\t"
+               + "}\n\t"
+               + "</style>\n\t"
+               + "</HEAD>\n\t"
+               + "<BODY>\n\t"
+               + "<div class=\"articulo\"><H3>Universidad de San Carlos de Guatemala<BR>Facultad de Ingenieria<BR>Escuela de Ciencias y Sistemas<BR>Reporte de Errores</H3><CENTER><H2>Organizacion de Lenguajes y Compiladores 1<BR>PROYECTO 1 [FIUSAC Copy Analyzer]<BR>REPORTE DE ERRORES</H2></CENTER></div>\n"
+               + "<div class=\"tabla\"><UL>\n" +//No. Errores: 
+               "<table style= border=3>\n\t"
+               + "<tr align=\"center\" bottom=\"middle\">\n\t"
+               + "<td>\n\t"
+               + "<table border=2>\n\t"
+               + "<tr align=\"center\" bottom=\"middle\">\n\t"
+               + "<td><b>Tipo</b></td>\n\t"
+               + "<td><b>Descripcion</b></td>\n\t"
+               + "<td><b>Fila</b></td>\n\t"
+               +  "<td><b>Columna</b></td>\n\t"
+               +  "<td><b>Archivo</b></td>\n\t"
+               + "</tr>\n\t";
+               
+                for(Errores error : Reporte_errores){
+                    Html += "<tr align=\"center\" bottom=\"middle\">\n\t"
+                    + "<td>" + error.tipo + "</td>"
+                    + "<td>" + error.valor + "</td>"
+                    + "<td>" + error.fila  + "</td>"
+                    +  "<td>" + error.columna + "</td>"
+                    +  "<td>" + error.archivo + "</td>"
+                    + "</tr>\n\t";
+                }  
+                Html += "</tr></table></tr></table></UL></div>\n\t"
+                +"</BODY>\n\t"
+                + "</HTML>";
+                pw.print(Html);
+                    
+                } catch (Exception e) {
+                }finally{
+                    if(null!=fichero){
+                        try {
+                            fichero.close();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+                try {
+            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "Reportes\\"+"ReporteErrores.html");
+            //System.out.println("Final");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     /**
      * Metodo para verificar los archivos dentro de una carpeta 
@@ -153,11 +252,9 @@ public class Ventana extends javax.swing.JFrame {
                                     Errores nuevo_error = new Errores(error.tipo, error.valor, nuevo_archivo1.nombre_archivo, error.fila, error.columna);
                                     nuevo_archivo1.lista_errores.add(nuevo_error);
                                 }
-
+                                // LLAMAR A LA CLASE ARBOL PARA RECORRER Y DEVOLVER LOS TOKENS
                                 Arbol arbol = new Arbol(raiz);
-                               // arbol.GraficarSintactico(numeroArbol);
                                 Rtokens += arbol.Reporte();
-                               // numeroArbol++;
                                 //-->guardamos el archivo en una lista
                                 this.datos_archivos.add(nuevo_archivo1);
                                 //-->limpiamos variables
@@ -196,10 +293,9 @@ public class Ventana extends javax.swing.JFrame {
                                     Errores nuevo_error = new Errores(error.tipo, error.valor, nuevo_archivo2.nombre_archivo, error.fila, error.columna);
                                     nuevo_archivo2.lista_errores.add(nuevo_error);
                                 }
+                                // LLAMAR A LA CLASE ARBOL PARA RECORRER Y DEVOLVER LOS TOKENS
                                 Arbol arbol = new Arbol(raiz);
-                                //arbol.GraficarSintactico(numeroArbol);
                                 Rtokens += arbol.Reporte();
-                                //numeroArbol++;
                                 //-->guardamos el archivo en una lista
                                 this.datos_archivos.add(nuevo_archivo2);
                                 //-->limpiamos variables
@@ -392,6 +488,7 @@ public class Ventana extends javax.swing.JFrame {
                 if(ins instanceof Comparar){
                     Comparar comp = (Comparar)ins;
                     archivos_carpetas(comp.getRuta1(), comp.getRuta2());
+                    this.ReporteErrores();
                 }
             }
             

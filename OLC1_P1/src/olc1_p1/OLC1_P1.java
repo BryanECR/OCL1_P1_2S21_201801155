@@ -7,8 +7,7 @@ package olc1_p1;
 
 /**
  *
- * @author Userlen
- * Comentario
+ * @author Bryan Caal
  */
 public class OLC1_P1 {
 
