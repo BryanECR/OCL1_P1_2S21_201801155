@@ -35,7 +35,4 @@ class draws_generator {
     }
 }
 
-/*
-    Si este comentario se repite
-    cuenta como parte de la repitencia
-*/
+/* Si este comentario se repite cuenta como parte de la repitencia */

@@ -19,10 +19,7 @@ class draws {
         }
         console.log(triangle_draw);
     }
-    /*
-    Si este comentario se repite
-    cuenta como parte de la repitencia
-    */
+    /* Si este comentario se repite cuenta como parte de la repitencia */
     draw_sq() {
         let sq_draw = " ";
         if (square_size >= 2 && square_size <= 50) {

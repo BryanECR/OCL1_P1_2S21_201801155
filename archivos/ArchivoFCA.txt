@@ -41,22 +41,9 @@ GenerarReporteEstadistico{
         String t1="Comparacion de metodos";
     }
 
-    #*
-    Este comentario debería ser ignorado 189214'!""$%$&"#$"#"#4
-    *#
 
     ##Cargamos los proyectos correspondientes
-    COMPARE("C:\Users\Userlen\Documents\GitHub\OCL1_P1_2S21_201801155\ProyectoA", "C:\Users\Userlen\Documents\GitHub\OCL1_P1_2S21_201801155\ProyectoB");
-
-    GraficaLineas{
-        TiTulO: reporteResumen; 
-        ArChIvO: "file_1.js";
-    }
-
-    graficalineas{
-        titulo: "Reporte file_2"; 
-        archivo: "file_2.js";
-    }
+    COMPARE("C:\Users\Userlen\Documents\GitHub\OCL1_P1_2S21_201801155\archivos\ProyectoA", "C:\Users\Userlen\Documents\GitHub\OCL1_P1_2S21_201801155\archivos\ProyectoB");
 
     ## Agregamos las graficas de barras
 
@@ -83,9 +70,5 @@ GenerarReporteEstadistico{
         EjeX: [ "fibonacci_generator", "torresDeHanoi", s1, s2 ];
         Valores: [ p1, p2, ${PuntajeEspecifico, "file_2.js","metodo","hanoi_generator"}, ${PuntajeEspecifico, "file_2.js","metodo","fact_generator"} ];
     }
-
-    #*
-        OJO: Es posible que se suba otro ejemplo de grafica de pie
-    *#
 
 }

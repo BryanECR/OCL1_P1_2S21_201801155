@@ -13,9 +13,7 @@ class ejercicios_numericos {
 		console.log(actual);
     }
 
-    /*
-    Este comentario debería ser ignorado 189214'!""$%$&"#$"#"#4
-    */
+    /*    Este comentario debería ser ignorado 189214'!""$%$&"#$"#"#4  */
 
     torresDeHanoi(hanoi_generator_n, hanoi_generator_origin, hanoi_generator_aux, hanoi_generator_dest) {
         if (hanoi_generator_n == 1){

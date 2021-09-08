@@ -17,7 +17,9 @@ import Graficas.Variables;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.nio.file.DirectoryIteratorException;
 import java.nio.file.DirectoryStream;
@@ -77,7 +79,23 @@ public class Ventana extends javax.swing.JFrame {
             }
         }
     }
-  
+    
+    private void GenerarReporteTJS(String cadena){
+        cadena+="</tbody></table></div></body></html>";
+        FileWriter fichero = null;
+        PrintWriter escritor = null;
+        try{
+            fichero = new FileWriter("TokensJS.html");
+            escritor = new PrintWriter(fichero);
+            escritor.println(cadena);
+            escritor.close();
+            fichero.close();
+            
+        } catch (Exception e) {
+            System.out.println("error en generar txt");
+            e.printStackTrace();
+        }
+    }
 
     
     
@@ -87,7 +105,7 @@ public class Ventana extends javax.swing.JFrame {
      * @param ruta_proy2 indica la ruta donde se encuentra la carpeta del proyecto 2
      */
     public void archivos_carpetas(String ruta_proy1, String ruta_proy2){
-        
+        String Rtokens = "<!DOCTYPE html><html><head><title>Tokens JS</title><link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU\" crossorigin=\"anonymous\"><style>#contenido{width: 60%;margin: 0 auto;background:whitesmoke;}body{background-image: url(\"fondo.jpg\");}</style></head><body><div id=\"contenido\"><h1 align=\"center\">Tokens Archivos JS</h1><table class=\"table\"><thead><tr><th scope=\"col\">Lexema</th><th scope=\"col\">Token</th><th scope=\"col\">Line</th><th scope=\"col\">Columna</th></tr></thead><tbody>";
         try{
             DirectoryStream<Path> stream_p1 = Files.newDirectoryStream(Paths.get(ruta_proy1), "*.js");
             
@@ -136,7 +154,10 @@ public class Ventana extends javax.swing.JFrame {
                                     nuevo_archivo1.lista_errores.add(nuevo_error);
                                 }
 
-                                
+                                Arbol arbol = new Arbol(raiz);
+                               // arbol.GraficarSintactico(numeroArbol);
+                                Rtokens += arbol.Reporte();
+                               // numeroArbol++;
                                 //-->guardamos el archivo en una lista
                                 this.datos_archivos.add(nuevo_archivo1);
                                 //-->limpiamos variables
@@ -175,7 +196,10 @@ public class Ventana extends javax.swing.JFrame {
                                     Errores nuevo_error = new Errores(error.tipo, error.valor, nuevo_archivo2.nombre_archivo, error.fila, error.columna);
                                     nuevo_archivo2.lista_errores.add(nuevo_error);
                                 }
-
+                                Arbol arbol = new Arbol(raiz);
+                                //arbol.GraficarSintactico(numeroArbol);
+                                Rtokens += arbol.Reporte();
+                                //numeroArbol++;
                                 //-->guardamos el archivo en una lista
                                 this.datos_archivos.add(nuevo_archivo2);
                                 //-->limpiamos variables
@@ -199,6 +223,7 @@ public class Ventana extends javax.swing.JFrame {
         } catch (IOException | DirectoryIteratorException ex) {
 		    System.err.println(ex);
 		}
+        this.GenerarReporteTJS(Rtokens);
     }
     
 
@@ -369,11 +394,11 @@ public class Ventana extends javax.swing.JFrame {
                     archivos_carpetas(comp.getRuta1(), comp.getRuta2());
                 }
             }
+            
         
         } catch (Exception ex) {
                 Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         
     }//GEN-LAST:event_btnEjecutarActionPerformed
 

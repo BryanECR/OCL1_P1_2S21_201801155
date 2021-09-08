@@ -20,7 +20,7 @@ class complex_exercises {
             hanoi_generator(hanoi_generator_n - 1, hanoi_generator_aux, hanoi_generator_origin, hanoi_generator_dest);
         }
     }
-
+    /*    Este comentario debería ser ignorado 189214'!""$%$&"#$"#"#4  */
     fact_generator(fact_generator_n){
         let fact_generator_product = 1;
         let fact_generator_i = 1;

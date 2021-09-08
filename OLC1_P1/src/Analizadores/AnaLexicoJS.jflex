@@ -34,7 +34,7 @@ cadena              = [\"][^\"\n]+[\"]
 caracter            = [\'][^\'\n]+[\']
 identificador       = [A-z]+([A-z]+|[0-9]+|"_")*
 
-comentario          = ("/*"+[\s\S]*?"*/")|("/*"+.*"*/")|("//".*?[\r\n])*
+comentario          = ("/*"+[\s\S]*"*/")|("//".[\r\n])*
 
 
 //------> Estados
@@ -85,9 +85,7 @@ comentario          = ("/*"+[\s\S]*?"*/")|("/*"+.*"*/")|("//".*?[\r\n])*
 
 
 //------> Espacios
-{comentario}         { System.out.println("Comentario: "+yytext());
-                        Ventana.lista_comentarios.add(yytext());
-                     }
+{comentario}         { System.out.println("Comentario: "+yytext()); }
 [ \t\r\n\f]                {/* Espacios en blanco, se ignoran */}
 
 //-------> Errores Lexicos 
