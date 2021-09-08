@@ -85,7 +85,9 @@ comentario          = ("/*"+[\s\S]*?"*/")|("/*"+.*"*/")|("//".*?[\r\n])*
 
 
 //------> Espacios
-{comentario}         { System.out.println("Comentario: "+yytext()); }
+{comentario}         { System.out.println("Comentario: "+yytext());
+                        Ventana.lista_comentarios.add(yytext());
+                     }
 [ \t\r\n\f]                {/* Espacios en blanco, se ignoran */}
 
 //-------> Errores Lexicos 

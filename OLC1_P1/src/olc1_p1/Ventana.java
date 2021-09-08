@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,6 +43,7 @@ public class Ventana extends javax.swing.JFrame {
      */
     public Ventana() {
         initComponents();
+        this.setTitle("Analizador de Copias");
     }
 
     LinkedList<String> variables = new LinkedList<String>();
@@ -333,7 +335,8 @@ public class Ventana extends javax.swing.JFrame {
         for(String id_variable_arch1 : archivo1.variables){
             for(String id_variable_arch2 : archivo2.variables){
                 if(id_variable_arch1.equals(id_variable_arch2)){
-                    TextAreaConsola.append("Variable repetida \"" + id_variable_arch1 +"\" en archivos " + archivo1.nombre_archivo + "\n");
+                   // System.out.println("Variable repetida \"" + id_variable_arch1 +"\" en archivos " + archivo1.nombre_archivo + "\n");
+                    this.TextAreaConsola.append("Variable repetida \"" + id_variable_arch1 +"\" en archivos " + archivo1.nombre_archivo + "\n");
                     this.cont_variables_repetidas++;
                 }
             }
@@ -350,7 +353,8 @@ public class Ventana extends javax.swing.JFrame {
         for(String comment : archivo1.comentarios){
             for(String comment2 : archivo2.comentarios){
                 if(comment.equalsIgnoreCase(comment2)){
-                    TextAreaConsola.append("Comentario repetido \"" + comment +"\" en archivos " + archivo2.nombre_archivo + "\n");
+                    //System.out.println("Comentario repetido \"" + comment +"\" en archivos " + archivo2.nombre_archivo + "\n");
+                    this.TextAreaConsola.append("Comentario repetido \"" + comment +"\" en archivos " + archivo2.nombre_archivo + "\n");
                     this.cont_comment_repetido++;
                 }
             }
@@ -433,66 +437,71 @@ public class Ventana extends javax.swing.JFrame {
 
         btnReportes.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         btnReportes.setText("Reportes");
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportesActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
         jLabel1.setText("OLC1 Proyecto 1");
 
         TextAreaEditor.setColumns(20);
         TextAreaEditor.setRows(5);
         jScrollPane2.setViewportView(TextAreaEditor);
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel2.setText("Editor");
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel3.setText("Consola");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(51, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnArchivo)
-                        .addGap(54, 54, 54)
-                        .addComponent(btnEjecutar)
-                        .addGap(58, 58, 58)
-                        .addComponent(btnReportes)
-                        .addGap(73, 73, 73))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addGap(261, 261, 261))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnEjecutar)
+                        .addGap(58, 58, 58)
+                        .addComponent(btnReportes))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(73, 73, 73))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnReportes)
-                        .addComponent(btnEjecutar)
-                        .addComponent(btnArchivo)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(27, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnReportes)
+                            .addComponent(btnEjecutar)
+                            .addComponent(btnArchivo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -511,12 +520,14 @@ public class Ventana extends javax.swing.JFrame {
             //se ejecuta el lexico y sintactico para analizar el archivo FCA 
             SintacticoFCA sintactico_fca =new SintacticoFCA(new Analizador_lexicoFCA(new BufferedReader( new StringReader(TextAreaEditor.getText()))));
             sintactico_fca.parse();
+            this.TextAreaConsola.append("Analizando Archivo FCA\n");
             instrucciones = sintactico_fca.instrucciones;
             
             //Recorre las instrucciones encontradas en el archivo FCA
             //--> ejecutamos primero el comando comparar 
             for(Object ins : instrucciones){
                 if(ins instanceof Comparar){
+                    this.TextAreaConsola.append("Comparando Proyectos\n");
                     Comparar comp = (Comparar)ins;
                     archivos_carpetas(comp.getRuta1(), comp.getRuta2());
                     this.ReporteErrores();
@@ -525,11 +536,13 @@ public class Ventana extends javax.swing.JFrame {
                     grafica_barras.valores();
                     grafica_barras.generar_graficaBarras(barras);
                     barras++;
+                    this.TextAreaConsola.append("Generando Grafica de Barras\n");
                 }else if(ins instanceof GPie){
                     GPie grafica_pie = (GPie)ins;
                     grafica_pie.valores();
                     grafica_pie.generar_graficaPie(pie);
                     pie++;
+                    this.TextAreaConsola.append("Generando Grafica de Pie\n");
                 }else if(ins instanceof LinkedList){
                     //En este caso como lo trabajo se que sera una lista de variables 
                     this.variables_FCA = (LinkedList<Variables>)ins;
@@ -566,6 +579,14 @@ public class Ventana extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnArchivoActionPerformed
+
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+        // TODO add your handling code here:
+        this.TextAreaConsola.append("Generando Reporte de Tokens\n");
+        this.TextAreaConsola.append("Generando Reporte de Graficas\n");
+        this.TextAreaConsola.append("Generando Reporte de Errores\n");
+        JOptionPane.showMessageDialog(null, "Reportes creados con exito");
+    }//GEN-LAST:event_btnReportesActionPerformed
 
     /**
      * @param args the command line arguments

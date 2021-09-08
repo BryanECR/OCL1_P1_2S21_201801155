@@ -696,6 +696,7 @@ public class Analizador_lexico_JS implements java_cup.runtime.Scanner {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
             { System.out.println("Comentario: "+yytext());
+                        Ventana.lista_comentarios.add(yytext());
             }
           case 34: break;
           case 2: 
