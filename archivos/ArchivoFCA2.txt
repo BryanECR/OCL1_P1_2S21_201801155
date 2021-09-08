@@ -1,0 +1,84 @@
+##Este es un ejemplo de un archivo de reportería FCA
+
+GenerarReporteEstadistico{
+
+    definirglobales{
+        string reporteResumen = "Reporte de Archivo file_1.js de los proyectos";
+
+        ## variables para Reportes de Barras
+
+        Double pr1 = 3;
+        Double pr2 = 2;
+        Double pr3 = 1;
+        Double pr4 = 5;
+        Double pr5 = 4;
+        Double pr6 = 6;
+        Double pr9 = 7;
+        Double pr12 = 5;
+        Double pr15 = 4;
+        Double pr16 = 3;
+
+        Double pe1 = 0;
+        Double pe2 = 1;
+        Double pe3 = 0;
+        Double pe4 = 1;
+        Double pe5 = 1;
+        Double pe6 = 1;
+        Double pe9 = 0;
+        Double pe12 = 0;
+        Double pe15 = 0;
+        Double pe16 = 0;
+
+        String titulobarrasesperada = "Probabilidades esperadas para variables archivo file_1.js";
+        String titulobarrasreal = "Probabilidades obtenidas para variables archivo file_1.js";
+
+        Double p1= 0.2;
+        Double p2= 0.8;
+
+        String s1 = "hanoi_generator";
+        String s2 = "fact_generator";
+
+        String t1="Comparacion de metodos";
+    }
+
+
+    ##Cargamos los proyectos correspondientes
+    COMPARE("C:\Users\Userlen\Documents\GitHub\OCL1_P1_2S21_201801155\archivos\ProyectoA", "C:\Users\Userlen\Documents\GitHub\OCL1_P1_2S21_201801155\archivos\ProyectoB");
+
+    GraficaLineas{
+        TiTulO: reporteResumen; 
+        ArChIvO: "file_1.js";
+    }
+
+    graficalineas{
+        titulo: "Reporte file_2"; 
+        archivo: "file_2.js";
+    }
+
+    ## Agregamos las graficas de barras
+
+    GraficaBarras {
+        Titulo: titulobarrasreal;
+        EjeX: [ "triangle_draw", "draw_triangle_i", "sq_draw", "draw_square_i", "draw_square_j", "draw_triangle_j", "draw_triangle_draw", "draw_square_draw", "x", "a" ];
+        Valores: [ pr1, pr2, pr3, pr4, pr5, pr6, pr9, pr12, pr15, pr16 ];
+        TituloX: "Nombre de las variables";
+        TituloY: "Puntaje";
+    }
+
+    GraficaBarras {
+        Titulo: titulobarrasesperada;
+        EjeX: [ "triangle_draw", "draw_triangle_i", "sq_draw", "draw_square_i", "draw_square_j", "draw_triangle_j", "draw_triangle_draw", "draw_square_draw", "x", "a" ];
+        Valores: [ pe1, pe2, pe3, pe4, pe5, pe6, pe9, pe12, pe15, pe16 ];
+        TituloX: "Nombre de las variables";
+        TituloY: "Puntaje";
+    }
+
+    ## AGREGANdo Graficas de Pie
+
+    GraficaPie{
+        Titulo: t1;
+        EjeX: [ "fibonacci_generator", "torresDeHanoi", s1, s2 ];
+        Valores: [ p1, p2, pr5, pr16 ];
+    }
+
+}

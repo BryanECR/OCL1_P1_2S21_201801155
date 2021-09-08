@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import olc1_p1.Ventana;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtilities;
 
 
@@ -101,7 +100,7 @@ public class GBarras {
         }
     }
     
-    public void generar_graficaBarras(){
+    public void generar_graficaBarras(int numero){
         
         /*
             SE PROCEDE A GRAFICAR 
@@ -127,18 +126,13 @@ public class GBarras {
                    dataset.setValue((double)this.valores.get(i), this.ejex.get(i), this.ejex.get(i));
                }
            }
-           /*
-            ChartFrame frame = new ChartFrame("Grafica de Barras", chart);
-            frame.pack();
-            frame.setVisible(true);
-           */ 
             
            
             //GENERAR IMAGEN
             int width = 640;   
             int height = 480;
         
-            File barChart = new File( "BarChart"+".jpeg" ); 
+            File barChart = new File( "BarChart"+Integer.toString(numero)+".jpeg" ); 
             try {
                 ChartUtilities.saveChartAsJPEG( barChart , chart , width , height );    //se utilizo jfreechart-1.0.1
             

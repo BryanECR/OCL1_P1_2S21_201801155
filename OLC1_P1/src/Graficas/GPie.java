@@ -81,7 +81,7 @@ public class GPie {
         }
     }
     
-    public void generar_graficaPie(){
+    public void generar_graficaPie(int numero){
         
         /*
             SE PROCEDE A GRAFICAR 
@@ -109,19 +109,12 @@ public class GPie {
                 false      
            );
             
-
-            /*
-            ChartFrame frame = new ChartFrame("Grafica de Pie", chart);
-            frame.pack();
-            frame.setVisible(true);
-            */
-            
             
             //GENERAR IMAGEN
             int width = 640;   
             int height = 480;
         
-            File barChart = new File( "PieChart"+".jpeg" ); 
+            File barChart = new File( "PieChart"+Integer.toString(numero)+".jpeg" ); 
             try {
                 ChartUtilities.saveChartAsJPEG( barChart , chart , width , height );    //se utilizo jfreechart-1.0.1
             

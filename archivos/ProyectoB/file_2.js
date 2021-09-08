@@ -8,7 +8,7 @@ class complex_exercises {
             fibonacci_generator_num1 = fibonacci_generator_num2;
             fibonacci_generator_num2 = fibonacci_generator_prev;
         }
-    }@
+    }
 
     hanoi_generator(hanoi_generator_n, hanoi_generator_origin, hanoi_generator_aux, hanoi_generator_dest) {
         if (hanoi_generator_n == 1){

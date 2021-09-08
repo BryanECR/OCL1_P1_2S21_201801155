@@ -11,7 +11,7 @@ class ejercicios_numericos {
 			siguiente = siguiente + temporal;
 		}
 		console.log(actual);
-    }@
+    }
 
     /*    Este comentario debería ser ignorado 189214'!""$%$&"#$"#"#4  */
 

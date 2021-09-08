@@ -358,6 +358,37 @@ public class Ventana extends javax.swing.JFrame {
     }
     
     
+    public void ReporteGraficas(int barras, int pie){
+        String cadena ="<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>Reporte Estadistico</title><style>img{display: block;margin: 0 auto;}body{background-image: url(\"fondo.jpg\");}</style></head><body> <div><h1 align=\"center\" style=\"color: white;\">REPORTE ESTADISTICO</h1><h2 align=\"center\" style=\"color: white;\">RESUMEN</h2><h2 align=\"center\" style=\"color: white;\">Graficas de Barras</h2>";
+        for(int i = 0; i<barras ; i++){
+            cadena+= "<img src=\"BarChart"+Integer.toString(i)+".jpeg\" />";
+        }
+        
+        cadena+="<h2 align=\"center\" style=\"color: white;\">Grafica de Pie</h2>";
+        
+        for(int i = 0; i<pie ; i++){
+            cadena+= "<img src=\"PieChart"+Integer.toString(i)+".jpeg\" />";
+        }
+        
+        cadena+="<h2 align=\"center\" style=\"color: white;\">Grafica de Lineas</h2></div><div id=\"datos\"><h1 align=\"center\" style=\"color: white;\">DATOS FINALES</h1><h1 align=\"center\" style=\"color: white;\">Nombre: Bryan Eduardo Caal Racanac</h1><h1 align=\"center\" style=\"color: white;\">Carnet: 201801155</h1><h1 id=\"fyh\" align=\"center\" style=\"color: white;\" >Fecha y Hora: </h1></div></body><script>  document.querySelector(\"#fyh\").append(new Date());  </script></html>";
+        
+        FileWriter fichero = null;
+        PrintWriter escritor = null;
+        try{
+            fichero = new FileWriter("ReporteGraficas.html");
+            escritor = new PrintWriter(fichero);
+            escritor.println(cadena);
+            escritor.close();
+            fichero.close();
+            
+        } catch (Exception e) {
+            System.out.println("error en generar txt");
+            e.printStackTrace();
+        }
+    
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -474,8 +505,8 @@ public class Ventana extends javax.swing.JFrame {
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         // TODO add your handling code here:
-        Nodo raiz = null;
-        
+        int barras = 0;
+        int pie = 0;
         try {   
             //se ejecuta el lexico y sintactico para analizar el archivo FCA 
             SintacticoFCA sintactico_fca =new SintacticoFCA(new Analizador_lexicoFCA(new BufferedReader( new StringReader(TextAreaEditor.getText()))));
@@ -489,8 +520,22 @@ public class Ventana extends javax.swing.JFrame {
                     Comparar comp = (Comparar)ins;
                     archivos_carpetas(comp.getRuta1(), comp.getRuta2());
                     this.ReporteErrores();
+                }else if(ins instanceof GBarras){
+                    GBarras grafica_barras = (GBarras)ins;
+                    grafica_barras.valores();
+                    grafica_barras.generar_graficaBarras(barras);
+                    barras++;
+                }else if(ins instanceof GPie){
+                    GPie grafica_pie = (GPie)ins;
+                    grafica_pie.valores();
+                    grafica_pie.generar_graficaPie(pie);
+                    pie++;
+                }else if(ins instanceof LinkedList){
+                    //En este caso como lo trabajo se que sera una lista de variables 
+                    this.variables_FCA = (LinkedList<Variables>)ins;
                 }
             }
+            this.ReporteGraficas(barras+1, pie+1);
             
         
         } catch (Exception ex) {

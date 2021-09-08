@@ -59,6 +59,8 @@ non terminal Caracteristica DECLARACIONES;
 non terminal LinkedList<Valor> VALORES;
 non terminal Valor E;
 
+non terminal LINEAS;
+
 
 //------> precedencia
 
@@ -78,6 +80,7 @@ INSTRUCCIONES::= DECLARACION_GLOB:a  {: RESULT = a; :}
 	|	 GRAFICABARRAS:a     {: RESULT = a; :}
 	|	 GRAFICAPIE:a        {: RESULT = a; :}
 	|	 COMPARE:a	     {: RESULT = a; :}
+        |        LINEAS              {::}
 	;
 
 
@@ -90,6 +93,9 @@ VARIABLES::= VARIABLES:a string identificador:b igual E:c pyc      {: RESULT = a
           |  doubleFCA identificador:a igual E:b pyc               {: RESULT = new LinkedList<>(); RESULT.add(new Variables(2, a, b)); :}
           ;
 
+
+LINEAS::= lineas lla DEC llc {::}
+       ;
 
 COMPARE::= compare para cadena:a coma cadena:b parc pyc      {:    RESULT = new Comparar(a.substring(1,a.length()-1),b.substring(1,b.length()-1));   :}
 	;
@@ -122,7 +128,7 @@ E::=  decimal:a        {: RESULT = new Valor(1, new Double(a));  :}
   |   digito:a         {: RESULT = new Valor(2, new Integer(a)); :} 
   |   identificador:a  {: RESULT = new Valor(3, a); :}
   |   cadena:a         {: RESULT = new Valor(4, a.substring(1,a.length()-1)); :}
-  |   dol lla pesp:a coma cadena:b coma cadena:c coma cadena:d llc  {: :}  
+  |   dol lla pesp:a coma cadena:b coma cadena:c coma cadena:d llc  {::}  
   |   pgen:a           {: RESULT = new Valor(3, a); :}
   |   pesp:a           {: RESULT = new Valor(3, a); :}
   ;
