@@ -98,9 +98,6 @@ public class GPie {
                }
            }
             
-            
-
-            
             JFreeChart chart = ChartFactory.createPieChart(
                 titulo_grafica, 
                 PieDataset,
@@ -108,18 +105,17 @@ public class GPie {
                 false,  
                 false      
            );
-            
-            
+ 
             //GENERAR IMAGEN
             int width = 640;   
             int height = 480;
         
-            File barChart = new File( "PieChart"+Integer.toString(numero)+".jpeg" ); 
+            File PieChart = new File( "PieChart"+Integer.toString(numero)+".jpeg" ); 
             try {
-                ChartUtilities.saveChartAsJPEG( barChart , chart , width , height );    //se utilizo jfreechart-1.0.1
+                ChartUtilities.saveChartAsJPEG( PieChart , chart , width , height );    //se utilizo jfreechart-1.0.1
             
             } catch (IOException ex) {
-                Logger.getLogger(GBarras.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(GPie.class.getName()).log(Level.SEVERE, null, ex);
             }
           
             

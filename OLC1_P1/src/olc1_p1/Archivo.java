@@ -16,13 +16,15 @@ public class Archivo {
     String nombre_archivo = "";
     LinkedList<String> variables;
     LinkedList<String> comentarios;
+    LinkedList<String> metodos;
     LinkedList<Errores> lista_errores;
     
-    public Archivo(String nombre_archivo, LinkedList<String> variables, LinkedList<String> comentarios, LinkedList<Errores> lista_errores){
+    public Archivo(String nombre_archivo, LinkedList<String> variables, LinkedList<String> comentarios, LinkedList<Errores> lista_errores,LinkedList<String> metodos){
         this.nombre_archivo = nombre_archivo;
         this.variables = variables;
         this.comentarios = comentarios;
         this.lista_errores = lista_errores;
+        this.metodos = metodos;
     }
     
     public String getNombreArchivo(){
@@ -34,6 +36,10 @@ public class Archivo {
     }
     
     public LinkedList<String> getListaComentarios(){
+        return this.comentarios;
+    }
+    
+    public LinkedList<String> getMetodos(){
         return this.comentarios;
     }
     

@@ -11,6 +11,7 @@ import Analizadores.Analizador_lexico_JS;
 import Analizadores.SintacticoFCA;
 import Analizadores.SintacticoJS2;
 import Graficas.GBarras;
+import Graficas.GLineas;
 import Graficas.GPie;
 import Graficas.Puntajes;
 import Graficas.Variables;
@@ -45,7 +46,8 @@ public class Ventana extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Analizador de Copias");
     }
-
+    
+    LinkedList<String> metodos = new LinkedList<String>();
     LinkedList<String> variables = new LinkedList<String>();
     public static  LinkedList<Archivo> datos_archivos = new LinkedList<>();
     static LinkedList<Object> instrucciones = new LinkedList<Object>();
@@ -80,6 +82,32 @@ public class Ventana extends javax.swing.JFrame {
             }
         }
     }
+    
+    
+    /**
+     * Metodo para recorrer el arbol sintactico generado con el archivo .js
+     * @param nodo recibe el nodo padre a recorrer 
+     * @param variables recibe la lista de variables 
+     */
+    public void cantidad_met(Nodo nodo, LinkedList<String> metodos){
+        
+        for(Nodo instruccion : nodo.hijos){
+            //Si encuentra un nodo tipo declaracion guardo el id en la lista de variables 
+            if(instruccion.token == "METODO"){
+                for(Nodo decla : instruccion.hijos){
+                    if(decla.token == "identificador"){
+                        metodos.add(decla.lexema);
+                    }
+                } 
+            }
+            
+            if(instruccion.lexema == ""){
+                cantidad_met(instruccion, metodos);
+            }
+        }
+    }
+    
+    
     
     private void GenerarReporteTJS(String cadena){
         cadena+="</tbody></table></div></body></html>";
@@ -241,9 +269,10 @@ public class Ventana extends javax.swing.JFrame {
                                 System.out.println("No se genero bien el arbol");
                             }else{
                                 
-                                nuevo_archivo1 = new Archivo(nombre_archivo1, new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
+                                nuevo_archivo1 = new Archivo(nombre_archivo1, new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),new LinkedList<>());
                                 //--> vamos a guardar las variables encontradas en el archivo
-                                analizar_entrada(raiz,nuevo_archivo1.variables ); 
+                                analizar_entrada(raiz,nuevo_archivo1.variables );
+                                cantidad_met(raiz,nuevo_archivo1.metodos);
                                 //-->agregamos los comentarios encontrados (la lista se lleno en el archivo Analizador_Lexico_JS.jflex)
                                 for(String comment : lista_comentarios){
                                     nuevo_archivo1.comentarios.add(comment);
@@ -282,9 +311,11 @@ public class Ventana extends javax.swing.JFrame {
                                 System.out.println("No se genero bien el arbol");
                             }else{
                                 
-                                nuevo_archivo2 = new Archivo(nombre_archivo2, new LinkedList<>(), new LinkedList<>(),new LinkedList<>());
+                                nuevo_archivo2 = new Archivo(nombre_archivo2, new LinkedList<>(), new LinkedList<>(),new LinkedList<>(),new LinkedList<>());
                                 //--> vamos a guardar las variables encontradas en el archivo
-                                analizar_entrada(raiz, nuevo_archivo2.variables); 
+                                analizar_entrada(raiz, nuevo_archivo2.variables);
+                                cantidad_met(raiz,nuevo_archivo2.metodos);
+                                
                                 //-->agregamos los comentarios encontrados (la lista se lleno en el archivo A_Lexico_FCA.jflex)
                                 for(String comment : lista_comentarios){
                                     nuevo_archivo2.comentarios.add(comment);
@@ -314,6 +345,7 @@ public class Ventana extends javax.swing.JFrame {
                         if(nuevo_archivo1 != null && nuevo_archivo2 != null){
                             variables_repetidas(nuevo_archivo1, nuevo_archivo2);
                             comentarios_repetidos(nuevo_archivo1, nuevo_archivo2);
+                            Datos(nuevo_archivo1, nuevo_archivo2);
                         }
                     }
                 }
@@ -361,9 +393,40 @@ public class Ventana extends javax.swing.JFrame {
         }
     }
     
+    int varA = 0;
+    int comentA = 0;
+    int metA = 0;
+    int varB = 0;
+    int comentB = 0;
+    int metB = 0;
+    public void Datos(Archivo archivo1, Archivo archivo2){
+        varA += archivo1.variables.size();
+        comentA += archivo1.comentarios.size();
+        varB += archivo2.variables.size();
+        comentB += archivo2.comentarios.size();
+        metA += archivo1.metodos.size();
+        metB += archivo2.metodos.size();
+    }
+    
     
     public void ReporteGraficas(int barras, int pie){
-        String cadena ="<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>Reporte Estadistico</title><style>img{display: block;margin: 0 auto;}body{background-image: url(\"fondo.jpg\");}</style></head><body> <div><h1 align=\"center\" style=\"color: white;\">REPORTE ESTADISTICO</h1><h2 align=\"center\" style=\"color: white;\">RESUMEN</h2><h2 align=\"center\" style=\"color: white;\">Graficas de Barras</h2>";
+        String cadena ="<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU\" crossorigin=\"anonymous\"><title>Reporte Estadistico</title><style>#tabla{width: 60%; margin: 0 auto; background-color: whitesmoke;}img{display: block;margin: 0 auto;}body{background-image: url(\"fondo.jpg\");}</style></head><body> <div><h1 align=\"center\" style=\"color: white;\">REPORTE ESTADISTICO</h1><h2 align=\"center\" style=\"color: white;\">RESUMEN</h2>";
+        
+        cadena += "<h1 align=\"center\" style=\"color: white;\">Resumen</h1>"
+                + "<div id=\"tabla\"><table class=\"table table-striped table-hover\">"
+                + "<tr><th>Archivo</th><th>Variables</th><th>Comentarios</th><th>metodos</th></tr>"
+                + "<tr><td>Proyecto 1</td><td>"+varA+"</td><td>"+comentA+"</td><td>"+metA+"</td></tr>"
+                + "<tr><td>Proyecto2</td><td>"+varB+"</td><td>"+comentB+"</td><td>"+metB+"</td></tr></table></div>";
+        
+        GLineas lineas = new GLineas();
+        lineas.GLineas(varA, comentA, metA, varB, comentB, metB);
+        
+        cadena+="<h2 align=\"center\" style=\"color: white;\">Grafica Resumen</h2>";
+        
+        cadena+="<img src=\"LineChart.jpeg\" />";
+        
+        cadena += "<h2 align=\"center\" style=\"color: white;\">Graficas de Barras</h2>";
+        
         for(int i = 0; i<barras ; i++){
             cadena+= "<img src=\"BarChart"+Integer.toString(i)+".jpeg\" />";
         }
@@ -549,7 +612,6 @@ public class Ventana extends javax.swing.JFrame {
                 }
             }
             this.ReporteGraficas(barras+1, pie+1);
-            
         
         } catch (Exception ex) {
                 Logger.getLogger(Ventana.class.getName()).log(Level.SEVERE, null, ex);
