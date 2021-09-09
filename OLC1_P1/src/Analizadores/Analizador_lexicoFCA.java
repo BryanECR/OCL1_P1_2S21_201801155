@@ -8,6 +8,8 @@
 package Analizadores;
 import java_cup.runtime.*;
 import javax.swing.JOptionPane;
+import olc1_p1.Ventana;
+import olc1_p1.Errores;
 
 /*----------------------------------------------------------
   ------------  2da Area: Opciones y Declaraciones ---------
@@ -896,6 +898,8 @@ public class Analizador_lexicoFCA implements java_cup.runtime.Scanner {
           case 35: break;
           case 2: 
             { System.out.println("Error Lexico " + yytext() + "Linea: " + yyline + "Columna: " + yycolumn);
+             Errores nuevo_error = new Errores("Error Lexico", yytext(), yyline, yycolumn);
+             Ventana.lista_errores.add(nuevo_error);
             }
           case 36: break;
           case 3: 
